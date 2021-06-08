@@ -13,29 +13,29 @@ package progscala3.fp.categories
  * Transform[A,B].
  */
 trait Functor2[F1[_], F2[_]]:
-  type Transform[A,B]
-  def map[A, B](fa: F1[A])(f: Transform[A,B]): F2[B]
+  type Transform[A, B]
+  def map[A, B](fa: F1[A])(f: Transform[A, B]): F2[B]
 
 /**
  * The same as for the original Functor implementation, but with the new
  * generalizations. Try doing a [Seq,Set] variant.
  */
-object SeqF2 extends Functor2[Seq,Seq]:
-  type Transform[A,B] = A => B
+object SeqF2 extends Functor2[Seq, Seq]:
+  type Transform[A, B] = A => B
   def map[A, B](seq: Seq[A])(f: A => B): Seq[B] = seq map f
 
-object OptionF2 extends Functor2[Option,Option]:
-  type Transform[A,B] = A => B
+object OptionF2 extends Functor2[Option, Option]:
+  type Transform[A, B] = A => B
   def map[A, B](opt: Option[A])(f: A => B): Option[B] = opt map f
 
-@main def TryFunctor2() =
+@main def TryFunctor2(): Unit =
   val fii: Int => Int = _ * 2
-  println(s"SeqF2.map(Seq(1,2,3,4))(fii)         = ${SeqF2.map(Seq(1,2,3,4))(fii)}")
+  println(s"SeqF2.map(Seq(1,2,3,4))(fii)         = ${SeqF2.map(Seq(1, 2, 3, 4))(fii)}")
   println(s"SeqF2.map(Seq.empty[Int])(fii)       = ${SeqF2.map(Seq.empty[Int])(fii)}")
   println(s"OptionF2.map(Some(2))(fii)           = ${OptionF2.map(Some(2))(fii)}")
   println(s"OptionF2.map(Option.empty[Int])(fii) = ${OptionF2.map(Option.empty[Int])(fii)}")
 
-  assert(SeqF2.map(Seq(1,2,3,4))(fii)   == Seq(2, 4, 6, 8))
+  assert(SeqF2.map(Seq(1, 2, 3, 4))(fii) == Seq(2, 4, 6, 8))
   assert(SeqF2.map(Seq.empty[Int])(fii) == Nil)
   assert(OptionF2.map(Some(2))(fii) == Some(4))
   assert(OptionF2.map(Option.empty[Int])(fii) == None)
@@ -57,8 +57,7 @@ object FunctionF2A:
     type F2 = [A] =>> [X] =>> A => X
     type Transf = [A, B] =>> [X, Y] =>> A => (X => B) => Y
 
-class FunctionF2A[A2,B1]
-    extends Functor2[FunctionF2A.F1[B1], FunctionF2A.F2[A2]]:
+class FunctionF2A[A2, B1] extends Functor2[FunctionF2A.F1[B1], FunctionF2A.F2[A2]]:
   import FunctionF2A.*
   type Transform = [X, Y] =>> Transf[A2, B1][X, Y]
   type F1B = [X] =>> F1[B1][X]
@@ -72,12 +71,12 @@ class FunctionF2A[A2,B1]
     map(func)(transform)
 end FunctionF2A
 
-@main def TryFunctionF2A() =
+@main def TryFunctionF2A(): Unit =
   val list = (0 to 100 by 10).toList
-  val fd2bd: Double => BigDecimal = d => BigDecimal(d)
+  val fd2bd: Double => BigDecimal = BigDecimal(_)
   val fi2d: Int => Double = 1.1 * _
   val fbd2s: BigDecimal => String = _.toString
-  val ff2a = FunctionF2A[Int,BigDecimal]
+  val ff2a = FunctionF2A[Int, BigDecimal]
   val fi2s: Int => String = ff2a.map(fd2bd)(fi2d)(fbd2s)
   val newList = list.map(fi2s)
   println(s"Input list: $list")
@@ -105,22 +104,23 @@ object FunctionF2B:
   def map[A, F[A]](f: A => A)(t: A => F[A])(using flatMap: FlatMap[A, F]): F[A] => F[A] =
     (fa: F[A]) => flatMap(fa)(t compose f)
 
-@main def TryFunctionF2B() =
-  given [A]: FunctionF2B.FlatMap[A,Seq] with
+@main def TryFunctionF2B(): Unit =
+  given [A]: FunctionF2B.FlatMap[A, Seq] with
     def apply(seq: Seq[A])(f: A => Seq[A]): Seq[A] = seq.flatMap(f)
-  given [A]: FunctionF2B.FlatMap[A,Option] with
+
+  given [A]: FunctionF2B.FlatMap[A, Option] with
     def apply(seq: Option[A])(f: A => Option[A]): Option[A] = seq.flatMap(f)
 
   val f: Int => Int = 2 * _
-  def tseq: Int => Seq[Int] = i => Seq(i)
-  def topt: Int => Option[Int] = i => Option(i)
+  def tseq: Int => Seq[Int] = Seq(_)
+  def topt: Int => Option[Int] = Option(_)
   val fseq2b = FunctionF2B.map(f)(tseq)
   val fopt2b = FunctionF2B.map(f)(topt)
 
-  println(s"fseq2b(List(1,2,3,4,5,6)) = ${fseq2b(List(1,2,3,4,5,6))}")
-  println(s"fopt2b(Some(3))           = ${fopt2b(Some(3))}")
-  println(s"fopt2b(None)              = ${fopt2b(None)}")
-  assert(fseq2b(List(1,2,3,4,5,6)) == List(2, 4, 6, 8, 10, 12))
+  println(s"fseq2b(List(1, 2, 3, 4, 5, 6)) = ${fseq2b(List(1, 2, 3, 4, 5, 6))}")
+  println(s"fopt2b(Some(3))                = ${fopt2b(Some(3))}")
+  println(s"fopt2b(None)                   = ${fopt2b(None)}")
+  assert(fseq2b(List(1, 2, 3, 4, 5, 6)) == List(2, 4, 6, 8, 10, 12))
   assert(fopt2b(Some(3)) == Some(6))
   assert(fopt2b(None) == None)
 end TryFunctionF2B
@@ -136,17 +136,19 @@ object FunctionF2C:
   trait Lift[A, F[A]]:
     def apply(a: A): F[A]
 
-  def map[A, F[A], G[A]](f: F[A] => F[A])(t: F[A] => G[A])(
-      using flatMap: FlatMap[A, G], lift: Lift[A, F]): G[A] => G[A] =
+  def map[A, F[A], G[A]](f: F[A] => F[A])(t: F[A] => G[A])
+                        (using flatMap: FlatMap[A, G], lift: Lift[A, F]): G[A] => G[A] =
     (ga: G[A]) => flatMap(ga) { a =>
       val fa = lift(a)
       val fa2 = f(fa)
       t(fa2)
     }
 
-@main def TryFunctionF2C() =
-  given [A]: FunctionF2C.Lift[A,Seq] = (a:A) => Seq(a)
-  given [A]: FunctionF2B.FlatMap[A,Set] with
+@main def TryFunctionF2C(): Unit =
+  given [A]: FunctionF2C.Lift[A, Seq] =
+    (a: A) => Seq(a)
+
+  given [A]: FunctionF2B.FlatMap[A, Set] with
     def apply(set: Set[A])(f: A => Set[A]): Set[A] = set.flatMap(f)
 
   val fseqd: Seq[Double] => Seq[Double] = _.map(2.0 * _)
@@ -171,36 +173,41 @@ object FunctionF2D:
   import FunctionF2B.FlatMap
   import FunctionF2C.Lift
 
-  def map[A, B, F[A], G[B]](f: F[A] => F[A])(
-      tab: A => B)(tba: B => A)(tfg: F[B] => G[B])(
-      using flatMapG: FlatMap[B, G], functor: Functor[F],
-      lift: Lift[A, F]): G[B] => G[B] =
+  def map[A, B, F[A], G[B]](f: F[A] => F[A])
+                           (tab: A => B)(tba: B => A)(tfg: F[B] => G[B])
+                           (using flatMapG: FlatMap[B, G],
+                                  functor: Functor[F],
+                                  lift: Lift[A, F]): G[B] => G[B] =
     (gb: G[B]) => flatMapG(gb) { b =>
       val fa = lift(tba(b))
       val fa2 = f(fa)
-      val fb = functor.map[A,B](fa2)(tab)
+      val fb = functor.map[A, B](fa2)(tab)
       tfg(fb)
     }
 
-@main def TryFunctionF2D() =
-  given [A]: FunctionF2C.Lift[A,Seq] = (a:A) => Seq(a)
-  given [A]: FunctionF2B.FlatMap[A,Set] with
-    def apply(set: Set[A])(f: A => Set[A]): Set[A] = set.flatMap(f)
+@main def TryFunctionF2D(): Unit =
+  given [A]: FunctionF2C.Lift[A, Seq] =
+    (a: A) => Seq(a)
+
+  given [A]: FunctionF2B.FlatMap[A, Set] with
+    def apply(set: Set[A])(f: A => Set[A]): Set[A] =
+      set.flatMap(f)
+
   given Functor[Seq] = SeqF
 
   val fsd2sd: Seq[Double] => Seq[Double] = _.map(_ * 1.1)
-  val td2bd: Double => BigDecimal = d => BigDecimal(d)
-  val tbd2d: BigDecimal => Double = bd => bd.doubleValue
+  val td2bd: Double => BigDecimal = BigDecimal(_)
+  val tbd2d: BigDecimal => Double = _.doubleValue
   val tsbd2sbd: Seq[BigDecimal] => Set[BigDecimal] = _.toSet
   val t2d: Set[BigDecimal] => Set[BigDecimal] =
     FunctionF2D.map(fsd2sd)(td2bd)(tbd2d)(tsbd2sbd)
 
-  val set2d: Set[BigDecimal] =
-    Set(0.0, 1.1, 2.2, 3.3, 4.4, 5.5).map(d => BigDecimal(d))
+  val set2d: Set[BigDecimal] = Set(0.0, 1.1, 2.2, 3.3, 4.4, 5.5).map(BigDecimal.apply)
   val newSet2d = t2d(set2d)
   println(s"Input set: $set2d")
   println(s"Output set: $newSet2d")
-  assert(newSet2d ==
-    Set(6.050000000000001, 2.4200000000000004, 1.2100000000000002,
-      3.63, 4.840000000000001, 0.0).map(d => BigDecimal(d)))
+  val expected = Set(
+    6.050000000000001, 2.4200000000000004, 1.2100000000000002, 3.63, 4.840000000000001, 0.0
+  ).map(BigDecimal.apply)
+  assert(newSet2d == expected)
 end TryFunctionF2D

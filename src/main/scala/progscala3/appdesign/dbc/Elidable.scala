@@ -19,8 +19,10 @@ import scala.annotation.elidable.*
 object MyLogger:
   @elidable(WARNING)
   def warn(message: String) = println(s"WARNING:        $message")
+
   @elidable(INFO)
   def info(message: String) = println(s"INFO:           $message")
+
   @elidable(ASSERTION)
   def assertion(message: String) = println(s"ASSERTION: $message")
 

@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/contexts/json/JSONBuilder.scala
 package progscala3.contexts.json
+
 import scala.annotation.targetName
 
 /**
@@ -64,23 +65,21 @@ object JSONBuilder:
    .*/
   object JSONElement:
     def valueString[T <: Matchable](t: T): String = t match
-      case "null" => "null"
+      case "null"    => "null"
       case s: String => "\""+s+"\""
-      case _ => t.toString
+      case _         => t.toString
 
   /**
    * We can model everything as either a "keyed" element of the form `"key": value`
    * or just a value, but the latter cases only appear as elements in arrays!
    */
   sealed trait JSONElement
-  case class JSONKeyedElement[T <: Matchable](
-      key: String, element: T) extends JSONElement:
+  case class JSONKeyedElement[T <: Matchable](key: String, element: T) extends JSONElement:
     override def toString = "\""+key+"\": "+JSONElement.valueString(element)
-  case class JSONArrayElement[T <: Matchable](
-      element: T) extends JSONElement:
+  case class JSONArrayElement[T <: Matchable](element: T) extends JSONElement:
     override def toString = JSONElement.valueString(element)
 
-  import scala.collection.mutable.ArrayBuffer
+  import scala.collection.mutable
 
   /**
    * For both JSON objects and arrays, we add elements to a mutable array buffer.
@@ -90,13 +89,15 @@ object JSONBuilder:
    * the delimiters.
    */
   trait JSONContainer(open: String, close: String) extends JSONElement:
-    val elements = ArrayBuffer[JSONElement]()
+    val elements = mutable.ArrayBuffer.empty[JSONElement]
     def add(e: JSONElement): Unit = elements += e
     override def toString = elements.mkString(open, ", ", close)
 
   class JSONObject extends JSONContainer("{", "}")
   class JSONArray extends JSONContainer("[", "]")
 
+  // TODO: Can we imporve the following givens with the
+  //       Streamline given syntax (https://github.com/lampepfl/dotty/pull/12107)
   /**
    * This sealed trait and the following given instances of `ValidJSONValue[T]`
    * are _witnesses_, constraining the allowed types of JSON values. Note that
@@ -122,8 +123,8 @@ object JSONBuilder:
    * shadow the generic `ArrowAssoc` implementation for constructing tuples!
    */
   extension (key: String)
-    @targetName("arrow") def ->[T <: Matchable : ValidJSONValue](
-        element: T)(using jc: JSONContainer) =
+    @targetName("arrow") def ->[T <: Matchable : ValidJSONValue](element: T)
+                                                                (using jc: JSONContainer) =
       jc.add(JSONKeyedElement(key, element))
 
   /**
@@ -137,7 +138,7 @@ object JSONBuilder:
    * those nested expressions. Finally, we return `jo`.
    */
   def obj(init: JSONObject ?=> Unit) =
-    given jo: JSONObject = JSONObject()
+    given jo: JSONObject = new JSONObject
     init
     jo
 
@@ -150,7 +151,7 @@ object JSONBuilder:
    * is inside the `String` extension method `->`.
    */
   def aobj(init: JSONObject ?=> Unit)(using jc: JSONContainer) =
-    given jo: JSONObject = JSONObject()
+    given jo: JSONObject = new JSONObject
     init
     jc.add(jo)
 
@@ -158,7 +159,7 @@ object JSONBuilder:
    * Define an array. This body is very similar to `obj`.
    */
   def array(init: JSONArray ?=> Unit) =
-    given ja: JSONArray = JSONArray()
+    given ja: JSONArray = new JSONArray
     init
     ja
 end JSONBuilder

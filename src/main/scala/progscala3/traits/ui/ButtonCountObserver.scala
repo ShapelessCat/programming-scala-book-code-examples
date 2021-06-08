@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/traits/ui/ButtonCountObserver.scala
 package progscala3.traits.ui
+
 import progscala3.traits.observer.*
 
 class ButtonCountObserver extends Observer[Button]:

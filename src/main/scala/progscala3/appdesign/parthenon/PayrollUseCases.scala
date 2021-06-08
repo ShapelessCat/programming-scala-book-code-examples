@@ -1,7 +1,8 @@
 // src/main/scala/progscala3/appdesign/parthenon/PayrollUseCases.scala
 package progscala3.appdesign.parthenon
-import progscala3.dsls.payroll.parsercomb.dsl.PayrollParser
+
 import progscala3.contexts.accounting.*
+import progscala3.dsls.payroll.parsercomb.dsl.PayrollParser
 
 object PayrollUseCases:
   import PayrollCalculator.{fromFile, Pay}
@@ -30,8 +31,10 @@ object PayrollUseCases:
 
   @main def RunPayroll(inputFileNames: String*): Unit =
     val files =
-      if inputFileNames.length == 0 then Seq("misc/parthenon-payroll.txt")
+      if inputFileNames.length == 0
+      then Seq("misc/parthenon-payroll.txt")
       else inputFileNames
+
     for (file <- files) do
       println(s"Processing input file: $file")
       val data = fromFile(file)

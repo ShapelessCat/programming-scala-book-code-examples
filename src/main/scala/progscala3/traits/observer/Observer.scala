@@ -11,4 +11,4 @@ trait Subject[State]:                                                // <2>
     observers.synchronized { observers :+= observer }                // <5>
 
   def notifyObservers(state: State): Unit =                          // <6>
-    observers foreach (_.receiveUpdate(state))
+    observers foreach { _.receiveUpdate(state) }

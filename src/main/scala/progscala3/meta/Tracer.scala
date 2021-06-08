@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/meta/Tracer.scala
 package progscala3.meta
+
 import scala.quoted.*
 
 /**
@@ -7,7 +8,8 @@ import scala.quoted.*
  */
 trait Logger:
   import java.time.Instant.now
-  def trace(message: => Any): Unit = log(s"TRACE ($now): $message")
+  def trace(message: => Any): Unit =
+    log(s"TRACE (${now()}): $message")
   // Other logging methods
   protected def log(s: String): Unit
 
@@ -32,9 +34,9 @@ object tracer:
     ConsoleLogger.trace(s"<-: $s")
     t
 
-  inline def traceStr[T](inline expr: => T): String = ${ traceStrImpl('expr) }
+  inline def traceStr[T](inline expr: => T): String =
+    ${ traceStrImpl('expr) }
 
   def traceStrImpl[T](expr: Expr[T])(using Quotes): Expr[String] =
     val code: String = expr.show
     Expr(code)
-

@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/dsls/payroll/parsercomb/DSL.scala
 package progscala3.dsls.payroll.parsercomb
+
 import scala.util.parsing.combinator.*
 import progscala3.dsls.payroll.*
 import progscala3.contexts.accounting.*
@@ -12,7 +13,7 @@ import progscala3.contexts.accounting.*
     insurance premiums   250.0 dollars,
     retirement savings   15.0  percent
   }"""
-  val parser = PayrollParser()
+  val parser = new PayrollParser
   val biweeklyDeductions = parser.parseAll(parser.biweekly, input).get
 
   println(biweeklyDeductions)

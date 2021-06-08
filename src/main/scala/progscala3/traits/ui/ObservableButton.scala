@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/traits/ui/ObservableButton.scala
 package progscala3.traits.ui
+
 import progscala3.traits.observer.*
 
 abstract class ObservableButton(name: String)                        // <1>

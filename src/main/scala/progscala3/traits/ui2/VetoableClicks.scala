@@ -6,10 +6,9 @@ trait VetoableClicks(val maxAllowed: Int = 1) extends Clickable:     // <1>
 
   abstract override def click(): String =
     count.synchronized { count += 1 }
-    if count <= maxAllowed then                                      // <3>
-      super.click()
-    else
-      s"Max allowed clicks $maxAllowed exceeded. Received $count clicks!"
+    if count <= maxAllowed                                           // <3>
+    then super.click()
+    else s"Max allowed clicks $maxAllowed exceeded. Received $count clicks!"
 
-  def resetCount(): Unit = count.synchronized { count = 0 }          // <4>
-
+  def resetCount(): Unit =                                           // <4>
+    count.synchronized { count = 0 }

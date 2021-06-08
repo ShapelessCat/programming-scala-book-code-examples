@@ -15,7 +15,7 @@ package progscala3.visibility.privatescope:
       class Nested derives CanEqual:
         private val nestedField = 1
 
-      private val nested = Nested()
+      private val nested = new Nested
 
     // Use {} because we can't use X: with no body.
     class PrivateClass2 extends PrivateClass1(1) {

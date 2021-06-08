@@ -9,23 +9,23 @@ object ButtonSubjectObserver extends SubjectObserver:                // <2>
   type O = Observer
 
   class ObservableButton(label: String) extends Button(label) with Subject:
-    override def click() =                                           // <3>
+    override def click(): Unit =                                     // <3>
       super.click()
       notifyObservers()
 
   class ButtonClickObserver extends Observer:                        // <4>
-   val clicks = scala.collection.mutable.HashMap[String,Int]()
+   val clicks = scala.collection.mutable.HashMap.empty[String, Int]
 
     def receiveUpdate(button: ObservableButton): Unit =
       val count = clicks.getOrElse(button.label, 0) + 1
       clicks.update(button.label, count)
 
-@main def TryButtonSubjectObserver() =
+@main def TryButtonSubjectObserver(): Unit =
   import ButtonSubjectObserver.*
 
   val button1 = ObservableButton("one")
   val button2 = ObservableButton("two")
-  val observer = ButtonClickObserver()
+  val observer = new ButtonClickObserver
   button1.addObserver(observer)
   button2.addObserver(observer)
   button1.click()

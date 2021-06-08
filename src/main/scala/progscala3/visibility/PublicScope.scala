@@ -9,11 +9,11 @@ package progscala3.visibility.publicscope:
       class Nested:
         val nestedField = 1
 
-      val nested = Nested()
+      val nested = new Nested
 
     class PublicClass2 extends PublicClass1:
       val field2  = publicField + 1
-      val nField2 = Nested().nestedField
+      val nField2 = (new Nested).nestedField
 
   package scopeB:
     class PublicClass1B extends scopeA.PublicClass1

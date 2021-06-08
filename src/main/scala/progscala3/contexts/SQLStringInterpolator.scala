@@ -23,7 +23,7 @@ object SimpleSQL:
       // Two helper methods. One for converting a two-element tuples into
       // two-element sequences, used in a +flatMap+ step, and the other for
       // filtering out strings we don't want.
-      def tup2Seq(t: (String,String)): Seq[String] = Seq(t._1, t._2)     // <3>
+      def tup2Seq(t: (String, String)): Seq[String] = Seq(t._1, t._2)     // <3>
       def keep(s: String): Boolean = s.length > 0 && s != "SELECT" && s != "FROM"
 
       // It turns out that the length of the "sc.parts" passed to +sql+ will always
@@ -34,7 +34,7 @@ object SimpleSQL:
       // Using a variable for the table name instead will be similar, but "sc.parts"
       // will end with an empty string. You can add print statements to see this
       // in action.
-      // This is why these two sequences are combined with "zipAll", so we can
+      //     This is why these two sequences are combined with "zipAll", so we can
       // get all the substrings back into the proper order. Using "zipAll" instead
       // of "zip" lets us handle the case that the second sequence is shorter than
       // the first; we use empty strings to "pad" the tuples created.
@@ -47,6 +47,3 @@ object SimpleSQL:
       // ... which is the table name.
       val table = tokens.last
       SQLQuery(columns, table)
-
-
-

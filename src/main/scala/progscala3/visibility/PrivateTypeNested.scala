@@ -7,7 +7,7 @@ package progscala3.visibility.privatetypenested:
       class Nested:
         private[PrivateClass1] val nestedField = 1
 
-      private[PrivateClass1] val nested = Nested()
+      private[PrivateClass1] val nested = new Nested
       val nestedNested = nested.nestedField
 
     // Use {} because we can't use X: with no body.
@@ -17,6 +17,6 @@ package progscala3.visibility.privatetypenested:
     }
 
     class PrivateClass3:
-      val privateClass1 = PrivateClass1()
+      val privateClass1 = new PrivateClass1
       // Scope error:
       // val privateNField = privateClass1.nested.nestedField

@@ -20,6 +20,7 @@ given circleToJSON: ToJSON[Circle] with
       |${indent}${circle.center.toJSON("center", level + 1)},
       |${indent}"radius": ${circle.radius}
       |$outdent}""".stripMargin
+
   extension (circle: Circle)
     def toJSON(name: String = "", level: Int = 0): String =
       toJSON2(circle, name, level)
@@ -32,6 +33,7 @@ given rectangleToJSON: ToJSON[Rectangle] with
       |${indent}"height":    ${rect.height}
       |${indent}"width":     ${rect.width}
       |$outdent}""".stripMargin
+
   extension (rect: Rectangle)
     def toJSON(name: String = "", level: Int = 0): String =
       toJSON2(rect, name, level)
@@ -39,24 +41,24 @@ given rectangleToJSON: ToJSON[Rectangle] with
 // tag::ToJSONShape[]
 // src/main/scala/progscala3/contexts/typeclass/new3/ToJSONTypeClasses.scala
 
-given triangleToJSON: ToJSON[Triangle] with                          // <1>
-  def toJSON2(
-      tri: Triangle, name: String = "", level: Int = 0): String =    // <2>
+given triangleToJSON: ToJSON[Triangle] with                                // <1>
+  def toJSON2(tri: Triangle, name: String = "", level: Int = 0): String =  // <2>
     val (outdent, indent) = indentation(level)
     s"""${handleName(name)}{
       |${indent}${tri.point1.toJSON("point1", level + 1)},
       |${indent}${tri.point2.toJSON("point2", level + 1)},
       |${indent}${tri.point3.toJSON("point3", level + 1)},
       |$outdent}""".stripMargin
+
   extension (tri: Triangle)
     def toJSON(name: String = "", level: Int = 0): String =
-      toJSON2(tri, name, level)                                      // <3>
+      toJSON2(tri, name, level)                                            // <3>
 
 given ToJSON[Shape] with
   extension (shape: Shape)
     def toJSON(name: String = "", level: Int = 0): String =
       shape match
-        case c: Circle    => circleToJSON.toJSON2(c, name, level)    // <4>
+        case c: Circle    => circleToJSON.toJSON2(c, name, level)          // <4>
         case r: Rectangle => rectangleToJSON.toJSON2(r, name, level)
         case t: Triangle  => triangleToJSON.toJSON2(t, name, level)
 // end::ToJSONShape[]

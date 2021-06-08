@@ -1,9 +1,9 @@
 // src/main/scala/progscala3/concurrency/process/Process.scala
 package progscala3.concurrency.process
 
-import scala.sys.process.*
-import java.net.URL
 import java.io.File
+import java.net.URL
+import scala.sys.process.*
 
 object DoProcess:
 

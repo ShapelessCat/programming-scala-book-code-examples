@@ -12,7 +12,8 @@ sealed abstract class AbbrevList[+A]:
   def tail: AbbrevList[A]
 
   @targetName("prepend")
-  def ::[B >: A] (x: B): AbbrevList[B] = new ::(x, this)
+  def ::[B >: A] (x: B): AbbrevList[B] =
+    new ::(x, this)
 
   final def foreach(f: A => Unit) =
     var these = this
@@ -20,7 +21,7 @@ sealed abstract class AbbrevList[+A]:
       f(these.head)
       these = these.tail
 
-// The empty AbbrevList.
+// The empty `AbbrevList`.
 
 case object AbbrevNil extends AbbrevList[Nothing]:
   override def isEmpty = true
@@ -31,11 +32,11 @@ case object AbbrevNil extends AbbrevList[Nothing]:
   def tail: AbbrevList[Nothing] =
     throw NoSuchElementException("tail of empty AbbrevList")
 
-// A non-empty AbbrevList characterized by a head and a tail.
+// A non-empty `AbbrevList` characterized by a head and a tail.
 
 @targetName("AbbrevListCons")
 final case class ::[B](private var hd: B,
-    private[list] var tl: AbbrevList[B]) extends AbbrevList[B]:
+                       private[list] var tl: AbbrevList[B]) extends AbbrevList[B]:
 
   override def isEmpty: Boolean = false
   def head : B = hd

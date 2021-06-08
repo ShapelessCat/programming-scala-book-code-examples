@@ -7,19 +7,22 @@ import scala.util.Try
 case class InvalidFieldName(name: String)
   extends RuntimeException(s"Invalid field name $name")
 
-object Record:                                                       // <1>
+object Record:                                                      // <1>
   def make: Record = new Record(Map.empty)
-  type Conv[T] = Conversion[Any,T]
+  type Conv[T] = Conversion[Any, T]
 
-case class Record private (contents: Map[String,Any]):               // <2>
+case class Record private (contents: Map[String, Any]):             // <2>
   import Record.Conv
-  def add[T : Conv](nameValue: (String, T)): Record =                // <3>
+
+  def add[T: Conv](nameValue: (String, T)): Record =                // <3>
     Record(contents + nameValue)
-  def get[T : Conv](colName: String): Try[T] =                       // <4>
+
+  def get[T: Conv](colName: String): Try[T] =                       // <4>
     Try {
       val conv = summon[Conv[T]]
       conv(col(colName))
     }
+
   private def col(colName: String): Any =
     contents.getOrElse(colName, throw InvalidFieldName(colName))
 
@@ -28,10 +31,14 @@ case class Record private (contents: Map[String,Any]):               // <2>
   given Conv[Int] = _.asInstanceOf[Int]                              // <5>
   given Conv[Double] = _.asInstanceOf[Double]
   given Conv[String] = _.asInstanceOf[String]
-  given ab[A : Conv, B : Conv]: Conv[(A, B)] = _.asInstanceOf[(A,B)]
+  given ab[A: Conv, B: Conv]: Conv[(A, B)] = _.asInstanceOf[(A, B)]
 
-  val rec = Record.make.add("one" -> 1).add("two" -> 2.2)
-    .add("three" -> "THREE!").add("four" -> (4.4, "four"))
+  val rec = Record
+    .make
+    .add("one" -> 1)
+    .add("two" -> 2.2)
+    .add("three" -> "THREE!")
+    .add("four" -> (4.4, "four"))
     .add("five" -> (5, ("five", 5.5)))
 
   val one   = rec.get[Int]("one")
@@ -44,7 +51,5 @@ case class Record private (contents: Map[String,Any]):               // <2>
   val bad3  = rec.get[Double]("five")
   // val error  = rec.get[Byte]("byte")
 
-  println(
-    s"one, two, three, four, five ->\n  $one, $two, $three, $four,\n  $five")
-  println(
-    s"bad1, bad2, bad3 ->\n  $bad1\n  $bad2\n  $bad3")
+  println(s"one, two, three, four, five ->\n  $one, $two, $three, $four,\n  $five")
+  println(s"bad1, bad2, bad3 ->\n  $bad1\n  $bad2\n  $bad3")

@@ -1,8 +1,9 @@
 // src/main/scala/progscala3/appdesign/parthenon/PayrollCalculator.scala
 package progscala3.appdesign.parthenon
+
+import progscala3.contexts.accounting.*
 import progscala3.dsls.payroll.parsercomb.dsl.PayrollParser
 import progscala3.dsls.payroll.*
-import progscala3.contexts.accounting.*
 
 object PayrollCalculator:                                       // <1>
   val dsl = """biweekly {
@@ -12,8 +13,9 @@ object PayrollCalculator:                                       // <1>
       retirement savings   %f  percent
     }"""
 
-  case class Pay(                                               // <2>
-    name: String, salary: Dollars, deductions: Deductions)
+  case class Pay(name: String,                                  // <2>
+                 salary: Dollars,
+                 deductions: Deductions)
 
   def fromFile(inputFileName: String): Seq[Pay] =               // <3>
     val data = readData(inputFileName)
@@ -28,8 +30,8 @@ object PayrollCalculator:                                       // <1>
 
   private def readData(inputFileName: String): Seq[Record] =
     for
-      line <- scala.io.Source.fromFile(inputFileName).getLines.toVector
-      if line.matches("\\s*#.*") == false    // skip comments
+      line <- scala.io.Source.fromFile(inputFileName).getLines().toVector
+      if !line.matches("\\s*#.*")    // skip comments
     yield toRule(line)
 
   private def toRule(line: String): Record =                    // <5>
@@ -41,6 +43,6 @@ object PayrollCalculator:                                       // <1>
         (name, Dollars(salary.toDouble), ruleString)
       case array => throw BadInput("expected six fields", line)
 
-  private val parser = PayrollParser()                          // <6>
+  private val parser = new PayrollParser                        // <6>
   private def toDeductions(rule: String): Deductions =
     parser.parseAll(parser.biweekly, rule).get

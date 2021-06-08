@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/traits/ui2/ObservableClicks.scala
 package progscala3.traits.ui2
+
 import progscala3.traits.observer.*
 
 trait ObservableClicks extends Clickable with Subject[Clickable]:

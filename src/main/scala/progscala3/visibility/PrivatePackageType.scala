@@ -9,9 +9,9 @@ package progscala3.visibility.privatepackagetype:
       private [scopeA2] class PrivateClass2
       private [scopeA]  class PrivateClass3
 
-    class PrivateClass4 extends PrivateClass1
-    protected class PrivateClass5 extends PrivateClass1
-    private class PrivateClass6 extends PrivateClass1
+    class PrivateClass4                 extends PrivateClass1
+    protected class PrivateClass5       extends PrivateClass1
+    private class PrivateClass6         extends PrivateClass1
     private[scopeA] class PrivateClass7 extends PrivateClass1
 
     // Scope error:

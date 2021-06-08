@@ -16,12 +16,8 @@ trait Formatter extends Any with M:
     areaCode: String, exchange: String, subnumber: String): String =
     s"($areaCode) $exchange-$subnumber"
 
-case class NAPhoneNumber(s: String)
-    extends AnyVal with Digitizer with Formatter:
-
-  /**
-   * Returns "NAPhoneNumber Formatter Digitizer M "
-   */
+case class NAPhoneNumber(s: String) extends AnyVal with Digitizer with Formatter:
+  /** Returns "NAPhoneNumber Formatter Digitizer M " */
   override def m(): String = "NAPhoneNumber " + super.m()
 
   /**
@@ -30,7 +26,7 @@ case class NAPhoneNumber(s: String)
    */
   override def toString =
     val digs = digits(s)
-    val areaCode = digs.substring(0,3)
-    val exchange = digs.substring(3,6)
-    val subnumber  = digs.substring(6,10)
+    val areaCode = digs.substring(0, 3)
+    val exchange = digs.substring(3, 6)
+    val subnumber = digs.substring(6, 10)
     format(areaCode, exchange, subnumber)

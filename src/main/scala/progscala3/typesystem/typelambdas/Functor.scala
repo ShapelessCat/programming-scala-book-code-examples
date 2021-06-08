@@ -13,4 +13,3 @@ object Functor:
   given [K]: Functor[MapKV[K]] with                             // <2>
     extension [V1] (map: MapKV[K][V1])
       def map2[V2](f: V1 => V2): MapKV[K][V2] = map.view.mapValues(f).toMap
-

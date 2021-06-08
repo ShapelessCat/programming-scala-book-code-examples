@@ -1,12 +1,13 @@
 // src/main/scala/progscala3/rounding/TryCatchARM.scala
 package progscala3.rounding
-import scala.language.reflectiveCalls
-import reflect.Selectable.reflectiveSelectable
-import scala.util.control.NonFatal
+
 import scala.io.Source
+import scala.language.reflectiveCalls
+import scala.reflect.Selectable.reflectiveSelectable
+import scala.util.control.NonFatal
 
 object manage:
-  def apply[R <: { def close():Unit }, T](resource: => R)(f: R => T): T =
+  def apply[R <: { def close(): Unit }, T](resource: => R)(f: R => T): T =
     var res: Option[R] = None
     try
       res = Some(resource)         // Only reference "resource" once!!
@@ -23,11 +24,11 @@ object manage:
         case None => // do nothing
 
 /** Usage: scala rounding.TryCatchARM filename1 filename2 ... */
-@main def TryCatchARM(fileNames: String*) =
+@main def TryCatchARM(fileNames: String*): Unit =
   val sizes = fileNames.map { fileName =>
     try
-      val size = manage(Source.fromFile(fileName)) { source =>
-        source.getLines.size
+      val size = manage(Source.fromFile(fileName)) {
+        _.getLines().size
       }
       println(s"file $fileName has $size lines")
       size
@@ -36,4 +37,4 @@ object manage:
         println(s"caught $ex")
         0
   }
-  println("Returned sizes: " + (sizes.mkString(", ")))
+  println("Returned sizes: " + sizes.mkString(", "))

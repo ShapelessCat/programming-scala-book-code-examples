@@ -1,5 +1,5 @@
-// src/main/scala/progscala3/basicoop/tagging/Tags2.scala
 package progscala3.basicoop.tagging
+
 import scala.annotation.targetName
 
 object Tagging2:
@@ -28,10 +28,13 @@ object Tagging2:
    */
   implicit class tagOps[S](s: S):
     def tag[T]: S @@ T = Tagged.tag(s)
+
   implicit class untagOps[S, T](st: S @@ T):
     def untag: S = Tagged.untag(st)
+
   implicit class tagsOps[F[_], S](fs: F[S]):
     def tags[T]: F[S @@ T] = Tagged.tags(fs)
+
   implicit class untagsOps[F[_], S, T](fst: F[S @@ T]):
     def untags: F[S] = Tagged.untags(fst)
 end Tagging2

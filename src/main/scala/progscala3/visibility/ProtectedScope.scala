@@ -15,13 +15,13 @@ package progscala3.visibility.protectedscope:
       class Nested derives CanEqual:
         protected val nestedField = 1
 
-      protected val nested = Nested()
+      protected val nested = new Nested
 
     class ProtectedClass2 extends ProtectedClass1(1):
       val field1 = protectedField1
       val field2 = protectedField2
       // Scope error:
-      // val nField = Nested().nestedField
+      // val nField = (new Nested).nestedField
 
     class ProtectedClass3:
       val protectedClass1 = ProtectedClass1(1)
@@ -31,7 +31,6 @@ package progscala3.visibility.protectedscope:
       // val protectedNField = protectedClass1.nested.nestedField
 
     protected class ProtectedClass4
-
     class ProtectedClass5 extends ProtectedClass4
     protected class ProtectedClass6 extends ProtectedClass4
 

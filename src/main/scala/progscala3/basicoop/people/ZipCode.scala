@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/basicoop/people/ZipCode.scala
 package progscala3.basicoop.people
 
 /**
@@ -14,15 +13,17 @@ object ZipCode:
 
   def apply(zip: Int): ZipCode =
     doApply(validUSPSInts(zip, 0))
+
   def apply(zip: Int, extension: Int): ZipCode =
     doApply(validUSPSInts(zip, extension))
+
   def apply(zip: String): ZipCode =
     doApply(validUSPSStrs(zip, ""))
+
   def apply(zip: String, extension: String): ZipCode =
     doApply(validUSPSStrs(zip, extension))
 
-  protected def doApply(
-    zipExt: Either[String,(Int,Int)]): ZipCode =
+  protected def doApply(zipExt: Either[String, (Int, Int)]): ZipCode =
     zipExt match
       case Right((z, e)) => new ZipCode(z, e)
       case Left(err)     => error(err)
@@ -45,8 +46,7 @@ object ZipCode:
   protected val zipRE = """^\s*\d{5}\s*$""".r
   protected val extRE = """^\s*\d{4}\s*$""".r
 
-  protected def validUSPSStrs(
-      z: String, e: String): Either[String, (Int, Int)] =
+  protected def validUSPSStrs(z: String, e: String): Either[String, (Int, Int)] =
     (z.trim, e.trim) match
       case (zipRE(), "")      => Right((z.toInt, 0))
       case (zipRE(), "0")     => Right((z.toInt, 0))

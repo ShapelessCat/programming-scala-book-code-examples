@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/basicoop/NoSQLRecordsRevisited.scala
 package progscala3.basicoop.scaladb
 
 import scala.util.Try
@@ -9,12 +8,14 @@ case class InvalidFieldName(name: String)
 trait FromTo[T]:
   def apply(any: Any): T
 
-opaque type Record = Map[String,Any]
+opaque type Record = Map[String, Any]
 extension (rec: Record)
-  def add[T : FromTo](nameValue: (String, T)): Record =
+  def add[T: FromTo](nameValue: (String, T)): Record =
     rec + nameValue
-  def get[T : FromTo](colName: String): Try[T] =
+
+  def get[T: FromTo](colName: String): Try[T] =
     Try(summon[FromTo[T]](col(colName)))
+
   private def col(colName: String): Any =
     rec.getOrElse(colName, throw InvalidFieldName(colName))
 
@@ -23,14 +24,19 @@ object Record:
 
 given FromTo[Int] with
   def apply(any: Any): Int = any.asInstanceOf[Int]
+
 given FromTo[Double] with
   def apply(any: Any): Double = any.asInstanceOf[Double]
+
 given FromTo[String] with
   def apply(any: Any): String = any.asInstanceOf[String]
 
 @main def TryScalaDBRevisited =
-  val rec = Record.empty.add("one" -> 1)
-    .add("two" -> 2.2).add("three" -> "THREE!")
+  val rec = Record
+    .empty
+    .add("one" -> 1)
+    .add("two" -> 2.2)
+    .add("three" -> "THREE!")
 
   val one   = rec.get[Int]("one")
   val two   = rec.get[Double]("two")

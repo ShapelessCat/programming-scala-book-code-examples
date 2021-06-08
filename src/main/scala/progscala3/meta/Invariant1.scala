@@ -9,9 +9,8 @@ object invariant1:
    * evaluated, then evaluate the block, then check the predicate again.
    * If all predicate checks pass, then return the block's value.
    */
-  inline def apply[T](                                          // <2>
-      inline predicate: => Boolean)(
-      inline block: => T): T =
+  inline def apply[T](inline predicate: => Boolean)             // <2>
+                     (inline block: => T): T =
     inline if !ignore then                                      // <3>
       if !predicate then throw InvariantFailure("before")
       val result = block
@@ -20,8 +19,8 @@ object invariant1:
     else
       block                                                     // <4>
 
-  case class InvariantFailure(beforeAfter: String) extends RuntimeException(
-    s"FAILURE! predicate failed $beforeAfter evaluation!")
+  case class InvariantFailure(beforeAfter: String)
+    extends RuntimeException(s"FAILURE! predicate failed $beforeAfter evaluation!")
 
 @main def TryInvariant1 =
   var i = 0

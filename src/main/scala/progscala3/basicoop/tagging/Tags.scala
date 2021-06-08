@@ -1,5 +1,5 @@
-// src/main/scala/progscala3/basicoop/tagging/Tags.scala
 package progscala3.basicoop.tagging
+
 import scala.annotation.targetName
 
 /**
@@ -50,7 +50,7 @@ end Tagging
   println(s"x, y, xs = $x, $y, ${xs.mkString(",")}")
   println(s"untagged: ${x.untag}, ${y.untag}, ${xs.untags.mkString(",")}")
 
-  val o: Ordering[Double] = implicitly
+  val o: Ordering[Double] = implicitly  // TODO: Why can't we use `summon`
   val om: Ordering[Double @@ Meter] = o.tags
 
   assert(om.compare(x, x) == 0)

@@ -33,17 +33,17 @@ case class Salary(gross: Dollars, taxes: Percentage):
 
 // tag::entrypoint[]
 
-@main def TryImplicitConversions() =
+@main def TryImplicitConversions(): Unit =
   import scala.language.implicitConversions                     // <1>
 
-  given Conversion[Double,Dollars] = d => Dollars(d)            // <2>
-  given Conversion[Double,Percentage] = d => Percentage(d)
+  given Conversion[Double, Dollars] = d => Dollars(d)           // <2>
+  given Conversion[Double, Percentage] = d => Percentage(d)
 
   val salary = Salary(100_000.0, 20.0)
   println(s"salary: $salary. Net pay: ${salary.net}")
 
-  given Conversion[Int,Dollars] with                            // <3>
-    def apply(i:Int): Dollars= Dollars(i.toDouble)
+  given Conversion[Int, Dollars] with                           // <3>
+    def apply(i: Int): Dollars = Dollars(i.toDouble)
 
   val dollars: Dollars = 10                                     // <4>
   println(s"Dollars created from an Int: $dollars")

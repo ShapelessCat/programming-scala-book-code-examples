@@ -36,10 +36,12 @@ object ServiceClient:                                                // <1>
       }
     }
 
-  protected def printResult(message: String) =                       // <9>
+  protected def printResult(message: String): Unit =                 // <9>
     println(s"<< $message")
     prompt()
-  protected def prompt() = print(">> ")
+
+  protected def prompt(): Unit =
+    print(">> ")
 // end::first[]
 
   private def processUserInput(): Unit =
@@ -50,73 +52,71 @@ object ServiceClient:                                                // <1>
     val charNumberRE = """^\s*(\w)\s+(\d+)\s*$""".r
     val charNumberStringRE = """^\s*(\w)\s+(\d+)\s+(.+)$""".r
 
-    def missingActorNumber() =
+    def missingActorNumber(): Unit =
       println("Crash command requirements an actor number.")
-    def invalidInput(s: String) =
+
+    def invalidInput(s: String): Unit =
       println(s"Unrecognized command: $s")
+
     def invalidCommand(c: String): Unit =
       println(s"Expected 'c', 'r', 'u', or 'd'. Got $c")
+
     def expectedString(): Unit =
       println("Expected a string after the command and number")
+
     def unexpectedString(c: String, n: String): Unit =
       println(s"Extra arguments after command and number '$c $n'")
-    def finished(): Nothing = exit("Goodbye!", 0)
 
-    def handleInt[R](ns: String)(f: Int=>R) = handleN(ns.toInt, ns)(f)
-    def handleLong[R](ns: String)(f: Long=>R) = handleN(ns.toLong, ns)(f)
+    def finished(): Nothing =
+      exit("Goodbye!", 0)
 
-    def handleN[N:Numeric,R](n: =>N, ns: String)(f: N=>R): R | String =
+    def handleInt[R](ns: String)(f: Int => R): R | String =
+      handleN(ns.toInt, ns)(f)
+
+    def handleLong[R](ns: String)(f: Long => R): R | String =
+      handleN(ns.toLong, ns)(f)
+
+    def handleN[N: Numeric, R](n: =>N, ns: String)(f: N => R): R | String =
       try f(n)
       catch
         case _: NFE => s"Expected a number, but got $ns"
 
     val handleLine: String => Unit =
-      case blankRE() =>   /* do nothing */
+      case blankRE()    =>   /* do nothing */
       case "h" | "help" => println(help)
       case dumpRE(null) => server ! AdminRequest.DumpAll(client)
-      case dumpRE(n) => Try(n.trim.toInt) match
-        case Failure(_) =>
-          println(s"""String "${n.trim}" is not a number.""")
-        case Success(int) =>
-          server ! AdminRequest.Dump(int, client)
+      case dumpRE(n)    => Try(n.trim.toInt) match
+        case Failure(_)   => println(s"""String "${n.trim}" is not a number.""")
+        case Success(int) => server ! AdminRequest.Dump(int, client)
       case badCrashRE() => missingActorNumber()
-      case crashRE(n) => Try(n.trim.toInt) match
-        case Failure(_) =>
-          println(s"""String "${n.trim}" is not a number.""")
-        case Success(int) =>
-          server ! AdminRequest.Crash(int, client)
+      case crashRE(n)   => Try(n.trim.toInt) match
+        case Failure(_)   => println(s"""String "${n.trim}" is not a number.""")
+        case Success(int) => server ! AdminRequest.Crash(int, client)
 
       case charNumberStringRE(c, n, s) => c match
         case "c" | "C" => Try(n.trim.toLong) match
-          case Failure(_) =>
-            println(s"""String "${n.trim}" is not a number.""")
-          case Success(long) =>
-            server ! CRUDRequest.Create(long, s, client)
+          case Failure(_)    => println(s"""String "${n.trim}" is not a number.""")
+          case Success(long) => server ! CRUDRequest.Create(long, s, client)
         case "u" | "U" => Try(n.trim.toLong) match
-          case Failure(_) =>
-            println(s"""String "${n.trim}" is not a number.""")
-          case Success(long) =>
-            server ! CRUDRequest.Update(long, s, client)
+          case Failure(_)    => println(s"""String "${n.trim}" is not a number.""")
+          case Success(long) => server ! CRUDRequest.Update(long, s, client)
         case "r" | "R" => unexpectedString(c, n)
         case "d" | "D" => unexpectedString(c, n)
-        case _ => invalidCommand(c)
+        case _         => invalidCommand(c)
 
       case charNumberRE(c, n) => c match
         case "r" | "R" => Try(n.trim.toLong) match
-          case Failure(_) =>
-            println(s"""String "${n.trim}" is not a number.""")
+          case Failure(_)    => println(s"""String "${n.trim}" is not a number.""")
           case Success(long) => server ! CRUDRequest.Read(long, client)
         case "d" | "D" => Try(n.trim.toLong) match
-          case Failure(_) =>
-            println(s"""String "${n.trim}" is not a number.""")
-          case Success(long) =>
-            server ! CRUDRequest.Delete(long, client)
+          case Failure(_)    => println(s"""String "${n.trim}" is not a number.""")
+          case Success(long) => server ! CRUDRequest.Delete(long, client)
         case "c" | "C" => expectedString()
         case "u" | "U" => expectedString()
-        case _ => invalidCommand(c)
+        case _         => invalidCommand(c)
 
       case "q" | "quit" | "exit" => finished()
-      case string => invalidInput(string)
+      case string                => invalidInput(string)
     end handleLine
 
     while true do

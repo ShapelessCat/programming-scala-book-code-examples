@@ -6,20 +6,20 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Try, Success, Failure}
 
-case class ThatsOdd(i: Int) extends RuntimeException(
-  s"odd $i received!")
+case class ThatsOdd(i: Int) extends RuntimeException(s"odd $i received!")
 
 val doComplete: Try[String] => Unit =
   case s: Success[String] => println(s)
   case f: Failure[String] => println(f)
 
 def make(i: Int): Future[String] =
-  if i % 2 == 0 then Future.successful(i.toString)
+  if i % 2 == 0
+  then Future.successful(i.toString)
   else Future.failed(ThatsOdd(i))
 
 @main def TryFuturesForComp =
-  val futures = for {
+  val futures = for
     i <- (0 to 9)
     future = make(i)
-  } yield future
+  yield future
   futures.map(_.onComplete(doComplete))

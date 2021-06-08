@@ -2,10 +2,10 @@
 package progscala3.traits.ui
 
 abstract class ButtonWithCallbacks(val label: String,
-    val callbacks: Seq[() => Unit] = Nil) extends Widget:            // <1>
+                                   val callbacks: Seq[() => Unit] = Nil) extends Widget:  // <1>
 
-  def click(): Unit =                                                // <2>
+  def click(): Unit =                                                                     // <2>
     updateUI()
     callbacks.foreach(f => f())
 
-  protected def updateUI(): Unit                                     // <3>
+  protected def updateUI(): Unit                                                          // <3>

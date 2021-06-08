@@ -2,7 +2,8 @@
 package progscala3.typelessdomore.api
 
 val DefaulCount = 5
-def countTo(limit: Int = DefaulCount) = (0 to limit).foreach(println)
+def countTo(limit: Int = DefaulCount): Unit =
+  (0 to limit).foreach(println)
 
 class Class1:
   def m = "cm1"

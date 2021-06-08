@@ -13,7 +13,8 @@ class ListBuilder[T] extends Builder[T, List[T]]:
 
   // inherited from trait Growable
 
-  def clear(): Unit = storage = Vector.empty[T]
+  def clear(): Unit =
+    storage = Vector.empty[T]
 
   def result(): List[T] = storage.toList
 

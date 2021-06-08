@@ -8,15 +8,14 @@ trait ToJSONOld[T]:
   def toJSON(name: String = "", level: Int = 0): String         // <1>
 
   protected val indent = "  "
-  protected def indentation(level: Int): (String,String) =
+  protected def indentation(level: Int): (String, String) =
     (indent * level, indent * (level+1))
   protected def handleName(name: String): String =
     if name.length > 0 then s""""$name": """ else ""
 // end::trait[]
 
 // tag::pointcircle[]
-implicit final class PointToJSON(
-    point: Point) extends ToJSONOld[Point]:
+implicit final class PointToJSON(point: Point) extends ToJSONOld[Point]:
   def toJSON(name: String = "", level: Int = 0): String =
     val (outdent, indent) = indentation(level)
     s"""${handleName(name)}{
@@ -24,8 +23,7 @@ implicit final class PointToJSON(
       |${indent}"y": "${point.y}"
       |$outdent}""".stripMargin
 
-implicit final class CircleToJSON(
-    circle: Circle) extends ToJSONOld[Circle]:
+implicit final class CircleToJSON(circle: Circle) extends ToJSONOld[Circle]:
   def toJSON(name: String = "", level: Int = 0): String =
     val (outdent, indent) = indentation(level)
     s"""${handleName(name)}{
@@ -34,8 +32,7 @@ implicit final class CircleToJSON(
       |$outdent}""".stripMargin
 // end::pointcircle[]
 
-implicit final class RectangleToJSON(
-    rect: Rectangle) extends ToJSONOld[Rectangle]:
+implicit final class RectangleToJSON(rect: Rectangle) extends ToJSONOld[Rectangle]:
   def toJSON(name: String = "", level: Int = 0): String =
     val (outdent, indent) = indentation(level)
     s"""${handleName(name)}{
@@ -44,8 +41,7 @@ implicit final class RectangleToJSON(
       |${indent}"width":     ${rect.width}
       |$outdent}""".stripMargin
 
-implicit final class TriangleToJSON(
-    tri: Triangle) extends ToJSONOld[Triangle]:
+implicit final class TriangleToJSON(tri: Triangle) extends ToJSONOld[Triangle]:
   def toJSON(name: String = "", level: Int = 0): String =
     val (outdent, indent) = indentation(level)
     s"""${handleName(name)}{

@@ -1,6 +1,7 @@
 // tag::first[]
 // src/main/scala/progscala3/concurrency/akka/ServerActor.scala
 package progscala3.concurrency.akka
+
 import akka.actor.typed.scaladsl.Behaviors
 import akka.actor.typed.{ActorRef, Behavior, SupervisorStrategy}
 import scala.util.Success
@@ -11,7 +12,8 @@ object ServerActor:
   var workers = Vector.empty[ActorRef[Request]]                      // <1>
 
   def apply(): Behavior[Request | Response] =                        // <2>
-    Behaviors.supervise(processRequests)
+    Behaviors
+      .supervise(processRequests)
       .onFailure[RuntimeException](SupervisorStrategy.restart)
 // end::first[]
 
@@ -24,14 +26,12 @@ object ServerActor:
             val name = s"worker-$i"
             context.spawn(WorkerActor(context.self, name), name)     // <2>
           }
-          replyTo ! Response(
-            Success(s"Starting $numberOfWorkers workers"), replyTo)
+          replyTo ! Response(Success(s"Starting $numberOfWorkers workers"), replyTo)
           Behaviors.same
         case c @ AdminRequest.Crash(n, replyTo) =>                   // <3>
           val n2 = n % workers.size
           workers(n2) ! c
-          replyTo ! Response(
-            Success(s"Crashed worker $n2 (from n=$n)"), replyTo)
+          replyTo ! Response(Success(s"Crashed worker $n2 (from n=$n)"), replyTo)
           Behaviors.same
         case AdminRequest.DumpAll(replyTo) =>                        // <4>
           (0 until workers.length).foreach { n =>

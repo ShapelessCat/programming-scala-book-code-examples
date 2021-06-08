@@ -6,9 +6,10 @@ abstract class SubjectObserver:                                      // <1>
   type O <: Observer
 
   trait Subject:                                                     // <3>
-    private var observers = List[O]()
+    private var observers = List.empty[O]
 
-    def addObserver(observer: O): Unit = observers ::= observer
+    def addObserver(observer: O): Unit =
+      observers ::= observer
 
     def notifyObservers(): Unit =                                    // <4>
       observers.foreach(_.receiveUpdate(this))

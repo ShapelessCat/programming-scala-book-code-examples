@@ -31,8 +31,8 @@ abstract class Service(val name: String) extends Logging:            // <1>
   protected def process(request: Request): Response
 
 object Service:                                                      // <2>
-  type Request = Map[String,Any]
-  type Response = Either[String,Map[String,Any]]
+  type Request = Map[String, Any]
+  type Response = Either[String, Map[String, Any]]
 
 open class HelloService(override val name: String)                   // <3>
     extends Service(name) with ConsoleLogging:
@@ -41,7 +41,7 @@ open class HelloService(override val name: String)                   // <3>
   protected def process(request: Request): Response =
     request.get("user") match
       case Some(user) => Right(Map("message" -> s"Hello, $user"))
-      case None => Left("No user field found!")
+      case None       => Left("No user field found!")
 // end::service[]
 
 // tag::main[]
@@ -52,7 +52,7 @@ open class HelloService(override val name: String)                   // <3>
     request = Map("user" -> user)
   do hs.handle(request) match
     case Left(error) => println(s"ERROR! $error")
-    case Right(map) => println(map("message"))
+    case Right(map)  => println(map("message"))
 
   println("Try an empty map:")
   println(hs.handle(Map.empty))

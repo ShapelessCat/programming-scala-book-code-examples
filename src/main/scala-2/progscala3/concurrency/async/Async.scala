@@ -1,9 +1,11 @@
 // src/main/scala-2/progscala3/concurrency/async/Async.scala
 package progscala3.concurrency.async
+
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
-import scala.async.Async.{async, await}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.async.Async.{async, await}
+import scala.util.chaining._
 
 /**
  * This example only works with Scala 2.13, as it uses the async and await
@@ -26,7 +28,7 @@ object AsyncExample {
 
   def asyncGetRecord(id: Long): Future[(Long, String)] = async {     // <3>
     val exists = async { val b = recordExists(id); println(b); b }
-    if (await(exists)) await(async { val r = getRecord(id); println(r); r })
+    if (await(exists)) await(async { getRecord(id).tap(println) })
     else (id, "Record not found!")
   }
 

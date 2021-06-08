@@ -1,19 +1,19 @@
 // src/main/scala/progscala3/typesystem/payroll/PhantomTypesPayroll.scala
 package progscala3.typesystem.payroll
+
 import progscala3.contexts.accounting.*                    // <1>
 
 sealed trait Step                                          // <2>
-trait PreTaxDeductions extends Step
+trait PreTaxDeductions  extends Step
 trait PostTaxDeductions extends Step
-trait Final extends Step
+trait Final             extends Step
 
-case class Employee(
-    name: String,
-    annualSalary: Dollars,
-    taxRate: Percentage,             // Assume one rate covers all taxes
-    insurancePremiums: Dollars,
-    _401kDeductionRate: Percentage,  // Pre-tax retirement plans in the US
-    postTaxDeductions: Dollars):     // Other "after-tax" deductions
+case class Employee(name: String,
+                    annualSalary: Dollars,
+                    taxRate: Percentage,             // Assume one rate covers all taxes
+                    insurancePremiums: Dollars,
+                    _401kDeductionRate: Percentage,  // Pre-tax retirement plans in the US
+                    postTaxDeductions: Dollars):     // Other "after-tax" deductions
   override def toString: String = f"""
     |Employee: $name
     |  annual salary:         $annualSalary
@@ -24,13 +24,12 @@ case class Employee(
     |    post tax deductions: $postTaxDeductions
     |""".stripMargin
 
-case class Pay[S <: Step](                                 // <3>
-    employee: Employee,
-    grossPay: Dollars,         // This pay period's gross, before taxes
-    netPay:   Dollars,         // This pay period's net, after taxes
-    taxes:    Dollars = Dollars(0.0),
-    preTaxDeductions: Dollars = Dollars(0.0),
-    postTaxDeductions: Dollars = Dollars(0.0)):
+case class Pay[S <: Step](employee: Employee,              // <3>
+                          grossPay: Dollars,  // This pay period's gross, before taxes
+                          netPay:   Dollars,  // This pay period's net, after taxes
+                          taxes:    Dollars = Dollars(0.0),
+                          preTaxDeductions: Dollars = Dollars(0.0),
+                          postTaxDeductions: Dollars = Dollars(0.0)):
   override def toString: String = f"""
     |Pay for employee: ${employee.name}
     |  gross pay:            $grossPay
@@ -67,10 +66,16 @@ object Payroll:
     pay.copy(netPay = newNet, postTaxDeductions = deductions)
 end Payroll
 
-@main def TryPhantomTypes  =
+@main def TryPhantomTypes(): Unit =
   import Payroll.*
-  val e = Employee("Buck Trends", Dollars(100000.0), Percentage(25.0),
-    Dollars(200), Percentage(10.0), Dollars(100.0))
+  val e = Employee(
+    name = "Buck Trends",
+    annualSalary = Dollars(100000.0),
+    taxRate = Percentage(25.0),
+    insurancePremiums = Dollars(200),
+    _401kDeductionRate = Percentage(10.0),
+    postTaxDeductions = Dollars(100.0)
+  )
   val pay1 = start(e)
   val pay2 = deduct401k(pay1)                              // <5>
   val pay3 = deductInsurance(pay2)

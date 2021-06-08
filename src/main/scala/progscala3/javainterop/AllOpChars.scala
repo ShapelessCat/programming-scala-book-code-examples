@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/javainterop/AllOpChars.scala
 package progscala3.javainterop
+
 import scala.annotation.targetName
 
 trait AllOpChars:

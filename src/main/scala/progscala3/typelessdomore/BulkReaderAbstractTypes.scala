@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/typelessdomore/BulkReaderAbstractTypes.scala
 package progscala3.typelessdomore
+
 import scala.io.Source
 
 abstract class BulkReader:
@@ -15,4 +16,4 @@ case class StringBulkReader(source: String) extends BulkReader:      // <2>
 
 case class FileBulkReader(source: Source) extends BulkReader:        // <3>
   type In = Source
-  def read: Seq[String] = source.getLines.toVector
+  def read: Seq[String] = source.getLines().toVector

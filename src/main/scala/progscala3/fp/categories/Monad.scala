@@ -1,6 +1,7 @@
 // tag::definition[]
 // src/main/scala/progscala3/fp/categories/Monad.scala
 package progscala3.fp.categories
+
 import scala.annotation.targetName
 
 trait Monad[M[_]]:                                                 // <1>
@@ -22,7 +23,6 @@ object OptionM extends Monad[Option]:
 // and other languages, like Haskell. (This part is not shown in the book).
 trait MonadPlus[M[_]] extends Monad[M]:
   def bind[A,B](fa: M[A])(f: A => M[B]): M[B] = flatMap(fa)(f)     // <4>
-  @targetName("rocket")
-  def >>=[A,B](fa: M[A])(f: A => M[B]): M[B] = flatMap(fa)(f)
+  @targetName("rocket") def >>=[A,B](fa: M[A])(f: A => M[B]): M[B] = flatMap(fa)(f)
   def pure[A](a: => A): M[A] = unit(a)
   def `return`[A](a: => A): M[A] = unit(a)    // backticks to avoid keyword

@@ -1,5 +1,6 @@
 // src/main/scala/progscala3/objectsystem/ui/TextField.scala
 package progscala3.objectsystem.ui
+
 import progscala3.traits.ui2.Clickable
 
 class TextField(var text: String) extends Widget with Clickable:

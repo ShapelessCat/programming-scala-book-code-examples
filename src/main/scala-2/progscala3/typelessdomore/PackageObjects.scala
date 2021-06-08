@@ -3,7 +3,9 @@ package progscala3.typelessdomore   // Notice, no ".api"
 
 package object api {
   val DefaultCount = 5
-  def countTo(limit: Int = DefaultCount) = (0 to limit).foreach(println)
+
+  def countTo(limit: Int = DefaultCount): Unit =
+    (0 to limit).foreach(println)
 
   class Class1 {
     def m = "cm1"

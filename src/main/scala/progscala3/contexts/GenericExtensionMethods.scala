@@ -7,7 +7,8 @@ object GenericExtensionMethods:
 
   extension [A: Ordering](seq: Seq[A])                               // <2>
     def sortedUnique: Seq[A] =
-      if seq.size == 0 then seq
+      if seq.size == 0
+      then seq
       else
         val sorted = seq.sorted                                      // <3>
         sorted.foldLeft(Vector(sorted.head)) { (vect, a) =>

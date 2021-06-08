@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/basicoop/ValueClassPhoneNumber.scala
 package progscala3.basicoop
 
 class NAPhoneNumber(val s: String) extends AnyVal:    // <1>
@@ -9,4 +8,5 @@ class NAPhoneNumber(val s: String) extends AnyVal:    // <1>
     val subnumber = digs.substring(6,10)  // "subscriber number"
     s"($areaCode) $exchange-$subnumber"
 
-  private def digits(str: String): String = str.replaceAll("""\D""", "")
+  private def digits(str: String): String =
+    str.replaceAll("""\D""", "")

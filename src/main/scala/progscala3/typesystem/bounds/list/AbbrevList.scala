@@ -1,8 +1,9 @@
-// src/main/scala/progscala3/typesystem/bounds/list/AbbrevList.scala
 // Loosely adapted from scala/List.scala in the Scala library.
 package progscala3.typesystem.bounds.list
-import scala.annotation.targetName
+
 import java.util.NoSuchElementException
+import scala.:: as _
+import scala.annotation.targetName
 
 sealed abstract class AbbrevList[+A]:
 

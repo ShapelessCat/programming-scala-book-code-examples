@@ -1,5 +1,3 @@
-// src/main/scala/progscala3/forcomps/LoginFormValidation.scala
-
 package progscala3.forcomps
 
 case class ValidLoginForm(userName: String, password: String)        // <1>

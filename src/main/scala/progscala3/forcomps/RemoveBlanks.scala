@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/forcomps/RemoveBlanks.scala
 package progscala3.forcomps
 
 object RemoveBlanks:

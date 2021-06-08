@@ -5,9 +5,9 @@ import progscala3.introscala.shapes.{Point, Shape, Circle, Rectangle, Triangle}
 import munit.*
 
 class ToJSONTypeClassesSuite extends FunSuite:
-  val c = Circle(Point(1.0,2.0), 1.0)
-  val r = Rectangle(Point(2.0,3.0), 2, 5)
-  val t = Triangle(Point(0.0,0.0), Point(2.0,0.0), Point(1.0,2.0))
+  val c = Circle(Point(1.0, 2.0), 1.0)
+  val r = Rectangle(Point(2.0, 3.0), 2, 5)
+  val t = Triangle(Point.origin, Point.onAxisX(2.0), Point(1.0, 2.0))
 
   def ns(s: String) = s.replaceAll("\\s+", "")  // remove white space
 

@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/introscala/shapes/Messages.scala
 package progscala3.introscala.shapes
 
 sealed trait Message                                                 // <1>

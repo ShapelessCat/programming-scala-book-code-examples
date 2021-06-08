@@ -1,5 +1,6 @@
-// src/main/scala/progscala3/introscala/shapes/ProcessMessages.scala
 package progscala3.introscala.shapes
+
+import scala.util.chaining.*
 
 object ProcessMessages:                                              // <1>
   def apply(message: Message): Message =                             // <2>
@@ -8,9 +9,11 @@ object ProcessMessages:                                              // <1>
         println(s"ProcessMessage: exiting...")
         Exit
       case Draw(shape) =>
-        shape.draw(str => println(s"ProcessMessage: $str"))
-        Response(s"ProcessMessage: $shape drawn")
+        shape.pipe { s =>
+          s.draw(str => println(s"ProcessMessage: $str"))
+          Response(s"ProcessMessage: $s drawn")
+        }
       case Response(unexpected) =>
-        val response = Response(s"ERROR: Unexpected Response: $unexpected")
-        println(s"ProcessMessage: $response")
-        response
+        Response(s"ERROR: Unexpected Response: $unexpected").tap { r =>
+          println(s"ProcessMessage: $r")
+        }

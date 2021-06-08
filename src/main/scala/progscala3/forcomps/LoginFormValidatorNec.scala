@@ -1,4 +1,3 @@
-// src/main/scala/progscala3/forcomps/LoginFormValidatorNec.scala
 package progscala3.forcomps
 
 import cats.implicits.*
@@ -11,30 +10,32 @@ import cats.data.Validated.*
  */
 object LoginFormValidatorNec:
 
-  type V[T] = ValidatedNec[LoginValidation, T]                       // <1>
+  type V[T] = ValidatedNec[LoginValidation, T]                        // <1>
 
-  def nonEmpty(field: String, name: String): V[String] =             // <2>
-    if field.length > 0 then field.validNec
+  def nonEmpty(field: String, name: String): V[String] =              // <2>
+    if field.length > 0
+    then field.validNec
     else Empty(name).invalidNec
 
   def notTooShort(field: String, name: String, n: Int): V[String] =
-    if field.length >= n then field.validNec
+    if field.length >= n
+    then field.validNec
     else TooShort(name, n).invalidNec
 
   /** For simplicity, just disallow whitespace. */
   def goodCharacters(field: String, name: String): V[String] =
     val re = raw".*\s..*".r
-    if re.matches(field) == false then field.validNec
+    if !re.matches(field)
+    then field.validNec
     else BadCharacters(name).invalidNec
 
-  def apply(                                                         // <3>
-      userName: String, password: String): V[ValidLoginForm] =
+  def apply(userName: String, password: String): V[ValidLoginForm] =  // <3>
     (nonEmpty(userName, "user name"),
-    notTooShort(userName, "user name", 5),
-    goodCharacters(userName, "user name"),
-    nonEmpty(password, "password"),
-    notTooShort(password, "password", 5),
-    goodCharacters(password, "password")).mapN {
+      notTooShort(userName, "user name", 5),
+      goodCharacters(userName, "user name"),
+      nonEmpty(password, "password"),
+      notTooShort(password, "password", 5),
+      goodCharacters(password, "password")).mapN {
       case (s1, _, _, s2, _, _) => ValidLoginForm(s1, s2)
     }
 end LoginFormValidatorNec

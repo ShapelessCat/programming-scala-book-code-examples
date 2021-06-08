@@ -1,5 +1,3 @@
-// src/main/scala/progscala3/forcomps/LoginFormValidatorSingle.scala
-
 package progscala3.forcomps
 
 object LoginFormValidatorSingle:

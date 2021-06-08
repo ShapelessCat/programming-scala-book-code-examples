@@ -55,10 +55,10 @@ implicit final class TriangleToJSON(
       |$outdent}""".stripMargin
 
 // tag::main[]
-@main def TryJSONTypeClasses() =
-  val c = Circle(Point(1.0,2.0), 1.0)
-  val r = Rectangle(Point(2.0,3.0), 2, 5)
-  val t = Triangle(Point(0.0,0.0), Point(2.0,0.0), Point(1.0,2.0))
+@main def TryJSONTypeClasses(): Unit =
+  val c = Circle(Point(1.0, 2.0), 1.0)
+  val r = Rectangle(Point(2.0, 3.0), 2, 5)
+  val t = Triangle(Point.origin, Point.onAxisX(2.0), Point(1.0, 2.0))
   println(c.toJSON("circle", 0))
   println(r.toJSON("rectangle", 0))
   println(t.toJSON("triangle", 0))

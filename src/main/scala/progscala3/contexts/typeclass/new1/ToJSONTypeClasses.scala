@@ -47,11 +47,10 @@ given ToJSON[Triangle] with
 // end::definitions2[]
 
 // tag::main[]
-@main def TryJSONTypeClasses() =
+@main def TryJSONTypeClasses(): Unit =
   println(s"summon[ToJSON[Point]] = ${summon[ToJSON[Point]]}")      // <1>
   println(s"summon[ToJSON[Circle]] = ${summon[ToJSON[Circle]]}")
-  println(Circle(Point(1.0,2.0), 1.0).toJSON("circle", 0))
-  println(Rectangle(Point(2.0,3.0), 2, 5).toJSON("rectangle", 0))
-  println(Triangle(
-    Point(0.0,0.0), Point(2.0,0.0), Point(1.0,2.0)).toJSON("triangle", 0))
+  println(Circle(Point(1.0, 2.0), 1.0).toJSON("circle", 0))
+  println(Rectangle(Point(2.0, 3.0), 2, 5).toJSON("rectangle", 0))
+  println(Triangle(Point.origin, Point.onAxisX(2.0), Point(1.0, 2.0)).toJSON("triangle", 0))
 // end::main[]

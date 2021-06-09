@@ -15,18 +15,18 @@ class ForTriesStepsSuite extends FunSuite:
   type Step = Int => Try[Int]
 
   val successfulSteps: Seq[Step] = Seq(
-  (i:Int) => Success(i + 5),
-  (i:Int) => Success(i + 10),
-  (i:Int) => Success(i + 25))
+    (i:Int) => Success(i + 5),
+    (i:Int) => Success(i + 10),
+    (i:Int) => Success(i + 25))
   val partiallySuccessfulSteps: Seq[Step] = Seq(
-  (i:Int) => Success(i + 5),
-  (i:Int) => Failure(RuntimeException("FAIL!")),
-  (i:Int) => Success(i + 25))
+    (i:Int) => Success(i + 5),
+    (i:Int) => Failure(RuntimeException("FAIL!")),
+    (i:Int) => Success(i + 25))
 
   def sumCounts1(countSteps: Seq[Step]): Try[Int] =
     val zero: Try[Int] = Success(0)
     countSteps.foldLeft(zero) {
-      (sumTry, step) => sumTry flatMap (i => step(i))
+      (sumTry, step) => sumTry.flatMap(step)
     }
 
   test("Folding over a sequence of Somes processes all values") {
@@ -35,10 +35,8 @@ class ForTriesStepsSuite extends FunSuite:
 
   test("Folding over a sequence of Somes and Nones returns None") {
     sumCounts1(partiallySuccessfulSteps) match
-      case Failure(re) =>
-        assert(re.getMessage == "FAIL!")
-      case Success(i) =>
-        assert(false, s"Should have failed, but returned Success($i)")
+      case Failure(re) => assert(re.getMessage == "FAIL!")
+      case Success(i)  => assert(false, s"Should have failed, but returned Success($i)")
   }
 
   // More verbose, but it stops the "counts" iteration at the first Failure.
@@ -60,6 +58,6 @@ class ForTriesStepsSuite extends FunSuite:
 
     sumCounts2(partiallySuccessfulSteps) match
       case Failure(re) => assert(re.getMessage == "FAIL!")
-      case Success(i) => assert(false, s"Should have failed, but returned $i")
+      case Success(i)  => assert(false, s"Should have failed, but returned $i")
   }
 end ForTriesStepsSuite

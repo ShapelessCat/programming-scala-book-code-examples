@@ -6,10 +6,11 @@ import scala.language.higherKinds                         // <1>
 
 class FunctorSuite extends FunSuite:
 
-  val fid: Int => Double    = i => 1.5 * i
+  val fid: Int => Double =
+    i => 1.5 * i
 
   test("SeqF.map behaves like the collection's map") {
-    assert(SeqF.map(Seq(1,2,3,4))(fid) == Seq(1.5, 3.0, 4.5, 6.0))
+    assert(SeqF.map(Seq(1, 2, 3, 4))(fid) == Seq(1.5, 3.0, 4.5, 6.0))
     assert(SeqF.map(Seq.empty[Int])(fid) == Nil)
   }
 

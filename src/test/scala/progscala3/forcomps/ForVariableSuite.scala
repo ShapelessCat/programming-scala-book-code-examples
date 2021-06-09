@@ -18,10 +18,12 @@ class ForVariableSuite extends FunSuite:
   }
 
   test("Variable assignmen is like a map step") {
-    val result = states flatMap (_.toSeq withFilter (_.isLower) map { c =>
-      val c2 = s"$c-${c.toUpper}"
-      c2
-    })
+    val result = states flatMap {
+      _.toSeq withFilter (_.isLower) map { c =>
+        val c2 = s"$c-${c.toUpper}"
+        c2
+      }
+    }
     // Check the first five values:
     assert(result.take(5) == List("l-L", "a-A", "b-B", "a-A", "m-M"))
   }

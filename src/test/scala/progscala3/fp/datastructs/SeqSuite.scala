@@ -17,8 +17,7 @@ class SeqSuite extends FunSuite:
 
   test("Construct a seq with the x +: y +: seq concatenation") {
     val seq1 = "People" +: "should" +: "read" +: seq
-    assert(seq1 ==
-      Seq("People", "should", "read", "Programming", "Scala"))
+    assert(seq1 == Seq("People", "should", "read", "Programming", "Scala"))
   }
 
   test("Construct a seq with the x +: y +: Nil construction") {
@@ -29,6 +28,5 @@ class SeqSuite extends FunSuite:
   test("Join seqs with ++") {
     val seq1 = "People" +: "should" +: "read" +: Nil
     val seq2 = seq1 ++ seq
-    assert(seq2 ==
-      Seq("People", "should", "read", "Programming", "Scala"))
+    assert(seq2 == Seq("People", "should", "read", "Programming", "Scala"))
   }

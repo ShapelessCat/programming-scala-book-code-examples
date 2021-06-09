@@ -5,7 +5,7 @@ import munit.*
 
 class RequirementSuite extends FunSuite:
 
-  val list = List(1,2,3)
+  val list = List(1, 2, 3)
 
   test("A true predicate passes") {
     requirement(list.size == 3)

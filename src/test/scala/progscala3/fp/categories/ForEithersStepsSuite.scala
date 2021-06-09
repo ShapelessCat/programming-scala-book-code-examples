@@ -12,7 +12,7 @@ class ForEithersStepsSuite extends FunSuite:
   // is arbitrary, you can't use a for comprehension.
 
   // Alias the long function signature:
-  type Step = Int => Either[RuntimeException,Int]
+  type Step = Int => Either[RuntimeException, Int]
 
   val successfulSteps: Seq[Step] = List(
     (i:Int) => Right(i + 5),
@@ -24,9 +24,9 @@ class ForEithersStepsSuite extends FunSuite:
     (i:Int) => Right(i + 25))
 
   def sumCounts1(countSteps: Seq[Step]): Either[RuntimeException,Int] =
-    val zero: Either[RuntimeException,Int] = Right(0)
+    val zero: Either[RuntimeException, Int] = Right(0)
     countSteps.foldLeft(zero) {
-      (sumEither, step) => sumEither flatMap (i => step(i))
+      (sumEither, step) => sumEither.flatMap(step)
     }
 
   test("Folding over a sequence of Rights processes all values") {
@@ -35,17 +35,15 @@ class ForEithersStepsSuite extends FunSuite:
 
   test("Folding over a sequence of Lefts and Rights returns Left") {
     sumCounts1(partiallySuccessfulSteps) match
-      case Left(re) =>
-        assert(re.getMessage == "FAIL!")
-      case Right(i) =>
-        (false, s"Should have failed, but returned Right($i)")
+      case Left(re) => assert(re.getMessage == "FAIL!")
+      case Right(i) => (false, s"Should have failed, but returned Right($i)")
   }
 
   // More verbose, but it stops the "counts" iteration at the first Left.
   // and it doesn't create intermediate Rights:
-  def sumCounts2(countSteps: Seq[Step]): Either[RuntimeException,Int] =
+  def sumCounts2(countSteps: Seq[Step]): Either[RuntimeException, Int] =
     @tailrec
-    def sum(accum: Int, countSteps2: Seq[Step]): Either[RuntimeException,Int] =
+    def sum(accum: Int, countSteps2: Seq[Step]): Either[RuntimeException, Int] =
       countSteps2 match
         case Nil          => Right(accum)
         case step +: tail => step(accum) match
@@ -57,10 +55,7 @@ class ForEithersStepsSuite extends FunSuite:
     assert(sumCounts2(successfulSteps) == Right(40))
 
     sumCounts2(partiallySuccessfulSteps) match
-      case Left(re) =>
-        assert(re.getMessage == "FAIL!")
-      case Right(i) =>
-        assert(false, s"Should have failed, but returned $i")
+      case Left(re) => assert(re.getMessage == "FAIL!")
+      case Right(i) => assert(false, s"Should have failed, but returned $i")
   }
 end ForEithersStepsSuite
-

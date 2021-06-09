@@ -8,10 +8,11 @@ class MonadPropertiesSuite extends ScalaCheckSuite:
   import Prop.forAll
 
   // Arbitrary function:
-  val f1: Int => Seq[Int] = i => 0 until 10 by ((math.abs(i) % 10) + 1)
+  val f1: Int => Seq[Int] =
+    i => 0 until 10 by ((math.abs(i) % 10) + 1)
 
   import SeqM.*
-  val unitInt: Int => Seq[Int] = (i:Int) => unit(i)
+  val unitInt: Int => Seq[Int] = unit(_)
   val f2: Int => Seq[Int] = i => Seq(i+1)
 
   property("Monad law for unit works for Sequence Monads") {

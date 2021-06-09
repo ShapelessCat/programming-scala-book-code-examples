@@ -11,10 +11,9 @@ class TypeClassesSubtypingSuite extends FunSuite:
   implicit class AnyStringizer(a: Matchable) extends Stringizer[Matchable]:
     def stringize: String = a match
       case s: String => s
-      case i: Int => (i*10).toString
-      case f: Float => (f*10).toString
-      case other =>
-        throw UnsupportedOperationException(s"Can't stringize $other")
+      case i: Int    => (i*10).toString
+      case f: Float  => (f*10).toString
+      case other     => throw UnsupportedOperationException(s"Can't stringize $other")
 
   case class Person(name: String, age: Int)
 
@@ -28,6 +27,5 @@ class TypeClassesSubtypingSuite extends FunSuite:
   }
 
   test("Another way to do type classing") {
-    assert(strings ==
-      Seq("1: 10", "2.2: 22.0", "three: three", "Can't stringize Person(me,20)"))
+    assert(strings == Seq("1: 10", "2.2: 22.0", "three: three", "Can't stringize Person(me,20)"))
   }

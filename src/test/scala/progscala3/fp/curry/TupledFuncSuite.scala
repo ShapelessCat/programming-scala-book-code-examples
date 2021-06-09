@@ -28,4 +28,4 @@ class TupledFuncSuite extends FunSuite:
     assert(expected == toStr(result))
   }
 
-  def toStr(d: Double): String = "%7.4f".format(d) // helper
+  def toStr(d: Double): String = "%7.4f".format(d)  // helper

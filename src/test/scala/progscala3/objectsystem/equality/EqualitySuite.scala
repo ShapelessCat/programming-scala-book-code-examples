@@ -11,7 +11,7 @@ class EqualitySuite extends FunSuite:
   val p1b = Person("Dean", "Wampler", 29)
   val p2  = Person("Buck", "Trends",  30)
 
-  def testEquals() =
+  def testEquals(): Unit =
     assert((p1a.equals(p1a))  == true)
     assert((p1a.equals(p1b))  == true)
     assert((p1a.equals(p2))   == false)
@@ -19,17 +19,17 @@ class EqualitySuite extends FunSuite:
 
   test("The == operator is implemented with the equals method") {
     testEquals()
-    assert((p1a == p1a)   == true)
-    assert((p1a == p1b)   == true)
-    assert((p1a == p2)    == false)
-    assert((p1a == null)  == false)
+    assert((p1a == p1a)  == true)
+    assert((p1a == p1b)  == true)
+    assert((p1a == p2)   == false)
+    assert((p1a == null) == false)
   }
 
   test("The != operator is implemented with the equals method") {
-    assert((p1a != p1a)   == false)
-    assert((p1a != p1b)   == false)
-    assert((p1a != p2)    == true)
-    assert((p1a != null)  == true)
+    assert((p1a != p1a)  == false)
+    assert((p1a != p1b)  == false)
+    assert((p1a != p2)   == true)
+    assert((p1a != null) == true)
   }
 
   test("Case classes define equals") {
@@ -78,12 +78,12 @@ class EqualitySuite extends FunSuite:
   }
 
   test("The ne method compares object identities, not values") {
-    assert((p1a.ne(p1a))    == false)
-    assert((p1a.ne(p1b))    == true)
-    assert((p1a.ne(p2))     == true)
-    assert((p1a.ne(null))   == true)
-    assert((null.ne(p1a))   == true)
-    assert((null.ne(null))  == false) // Compiler warns that it's always false.
+    assert((p1a.ne(p1a))   == false)
+    assert((p1a.ne(p1b))   == true)
+    assert((p1a.ne(p2))    == true)
+    assert((p1a.ne(null))  == true)
+    assert((null.ne(p1a))  == true)
+    assert((null.ne(null)) == false)  // Compiler warns that it's always false.
   }
 
   test("Equals for sequences") {

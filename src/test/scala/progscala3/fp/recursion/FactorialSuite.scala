@@ -13,14 +13,16 @@ class FactorialSuite extends FunSuite:
    */
   // @tailrec
   def factorial1(i: BigInt): BigInt =
-    if i == 1 then i
+    if i == 1
+    then i
     else i * factorial1(i - 1)
 
   /** A tail-recursive implementation */
   def factorial(i: BigInt): BigInt =
     @tailrec
     def fact(i: BigInt, accumulator: BigInt): BigInt =
-      if i == 1 then accumulator
+      if i == 1
+      then accumulator
       else fact(i - 1, i * accumulator)
     fact(i, 1)
 

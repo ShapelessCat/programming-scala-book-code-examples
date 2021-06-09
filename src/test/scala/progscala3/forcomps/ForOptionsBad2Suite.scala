@@ -7,8 +7,8 @@ import munit.*
 class ForOptionsBad2Suite extends FunSuite:
   def sumCountsBad(counts: Seq[Option[Int]]): Option[Int] =
     (counts foldLeft Option(0)) {
-      case (None, count) => None
-      case (countOption, None) => None
+      case (None, count)        => None
+      case (countOption, None)  => None
       case (countOption, count) => Some(countOption.get + count.get)
     }
 

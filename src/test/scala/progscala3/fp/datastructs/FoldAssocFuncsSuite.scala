@@ -21,7 +21,7 @@ class FoldAssocFuncsSuite extends FunSuite:
   val fnacLeft  = (x: String, y: String) => s"($x)-($y)"
   val fnacRight = (x: String, y: String) => s"($y)-($x)"
 
-  val list = List(1,2,3,4,5)
+  val list = List(1, 2, 3, 4, 5)
   val listStrings = list map (_.toString)
 
   test("Reducing left and right is equivalent for AC functions") {
@@ -35,19 +35,19 @@ class FoldAssocFuncsSuite extends FunSuite:
   }
 
   test("ReduceLeft is equivalent to left-biased grouping") {
-    assert( ((((1 - 2) - 3) - 4) - 5) == -13)
+    assert( ((((1 - 2) - 3) - 4) - 5) == -13 )
   }
 
   test("ReduceRight is equivalent to right-biased grouping") {
-    assert( ((((5 - 4) - 3) - 2) - 1) ==  -5)
+    assert( ((((5 - 4) - 3) - 2) - 1) ==  -5 )
     // or put another way, with the numbers in their original order:
-    assert( (-1 + (-2 + (-3 + (-4 + 5)))) == -5)
+    assert( (-1 + (-2 + (-3 + (-4 + 5)))) == -5 )
   }
 
   test("x - y is associative if we note that x - y == x + -y") {
-    assert( ((((1 - 2) - 3) - 4) - 5)     == -13)
-    assert( ((((1 + -2) + -3) + -4) + -5) == -13)
-    assert( (1 + (-2 + (-3 + (-4 + -5)))) == -13)
+    assert( ((((1 - 2) - 3) - 4) - 5)     == -13 )
+    assert( ((((1 + -2) + -3) + -4) + -5) == -13 )
+    assert( (1 + (-2 + (-3 + (-4 + -5)))) == -13 )
   }
 
   test("The string representation shows the grouping") {

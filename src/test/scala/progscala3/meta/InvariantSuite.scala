@@ -6,7 +6,7 @@ import munit.*
 class InvariantSuite extends FunSuite:
   case class Variable(var i: Int, var s: String)
 
-  def succeed() =                                                  // <1>
+  def succeed(): Unit =                                            // <1>
     val v = Variable(0, "Hello!")
     val i1 = invariant(v.s == "Hello!") {                          // <2>
       v.i += 1

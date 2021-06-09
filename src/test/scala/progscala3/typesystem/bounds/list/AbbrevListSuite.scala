@@ -31,6 +31,6 @@ class AbbrevListSuite extends FunSuite:
   }
   test("nonEmptyAbbrevList.foreach(...) processes each element") {
     var count = 0
-    (1 :: 2 :: AbbrevNil).foreach(i => count += i)
+    (1 :: 2 :: AbbrevNil).foreach(count += _)
     assert(count == 3)
   }

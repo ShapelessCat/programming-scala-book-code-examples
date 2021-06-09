@@ -26,11 +26,12 @@ class FoldRegexPatternsSuite extends FunSuite:
     val kvPairs =
       properties.split("\n").
       zipWithIndex.
-      foldLeft(Vector.empty[Either[Error,KV]]) { case (vect, (line, n)) =>
-        if ignoreRegex.matches(line) then vect
+      foldLeft(Vector.empty[Either[Error, KV]]) { case (vect, (line, n)) =>
+        if ignoreRegex.matches(line)
+        then vect
         else line match
           case kvRegex(key, value) => vect :+ Right(key.trim -> value.trim)
-          case _ => vect :+ Left(n+1, line.trim)
+          case _                   => vect :+ Left(n+1, line.trim)
       }
     assert(kvPairs == Vector(
       Right("book.name" -> "Programming Scala, Third Edition"),

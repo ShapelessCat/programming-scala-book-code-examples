@@ -12,7 +12,7 @@ class MapSuite extends FunSuite:
 
   test("Map transforms a collection one to one") {
     val lengths = stateCapitals map {
-      kv => (kv._1, kv._2.length)
+      (k, v) => (k, v.length)
     }
     assert(lengths == Map(
       "Alabama" -> 10,

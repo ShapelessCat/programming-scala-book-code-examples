@@ -5,8 +5,11 @@ import munit.*
 
 class PayrollSuite extends FunSuite:
 
-  case class Employee (name: String, title: String, annualSalary: Double,
-    taxRate: Double, insurancePremiumsPerWeek: Double)
+  case class Employee(name: String,
+                      title: String,
+                      annualSalary: Double,
+                      taxRate: Double,
+                      insurancePremiumsPerWeek: Double)
 
   val employees = List(
     Employee("Buck Trends", "CEO", 200000, 0.25, 100.0),
@@ -14,8 +17,7 @@ class PayrollSuite extends FunSuite:
     Employee("Joe Coder", "Developer", 130000, 0.20, 120.0))
 
   val weeklyPayroll = employees map { e =>
-    val net = (1.0 - e.taxRate) * (e.annualSalary / 52.0) -
-      e.insurancePremiumsPerWeek
+    val net = (1.0 - e.taxRate) * (e.annualSalary / 52.0) - e.insurancePremiumsPerWeek
     (e, net)
   }
 

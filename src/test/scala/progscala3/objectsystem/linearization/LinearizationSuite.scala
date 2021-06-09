@@ -47,8 +47,8 @@ class LinearizationSuite extends FunSuite:
   }
 
   test("Linearization of method invocation is right to left") {
-    assert(c3a.m()  == "C3A T3 T1 C2 T2 Base")
-    assert(c3b.m()  == "C3B T1 T3 C2 T2 Base")
-    assert(c3c.m()  == "T3 T1 C2 T2 Base")
-    assert(c3d.m()  == "T1 T3 C2 T2 Base")
+    assert(c3a.m() == "C3A T3 T1 C2 T2 Base")
+    assert(c3b.m() == "C3B T1 T3 C2 T2 Base")
+    assert(c3c.m() == "T3 T1 C2 T2 Base")
+    assert(c3d.m() == "T1 T3 C2 T2 Base")
   }

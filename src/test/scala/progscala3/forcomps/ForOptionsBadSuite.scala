@@ -12,15 +12,14 @@ import munit.*
  * smaller functions.
  */
 class ForOptionsBadSuite extends FunSuite:
-  def doThreeSteps(
-      step1: Int => Option[Int],
-      step2: Int => Option[Int],
-      step3: Int => Option[Int]): Option[Int] =
+  def doThreeSteps(step1: Int => Option[Int],
+                   step2: Int => Option[Int],
+                   step3: Int => Option[Int]): Option[Int] =
     val result1 = step1(0) match
-      case None => return None
+      case None         => return None
       case Some(result) => result
     val result2 = step2(result1) match
-      case None => return None
+      case None         => return None
       case Some(result) => result
     step3(result2)
 

@@ -17,7 +17,7 @@ class ForOptionsSeqSuite extends FunSuite:
     val results = for
       case Some(i) <- options withFilter {
         case Some(i) => true
-        case None => false
+        case None    => false
       }
     yield (2 * i)
     assert(results == Vector(20, 40))
@@ -26,10 +26,10 @@ class ForOptionsSeqSuite extends FunSuite:
   test("for comprehensions with yield do mapping") {
     val results = options withFilter {
       case Some(i) => true
-      case None => false
+      case None    => false
     } map {
       case Some(i) => (2 * i)
-      case None => -1             // <1>
+      case None    => -1             // <1>
     }
     assert(results == Vector(20, 40))
   }

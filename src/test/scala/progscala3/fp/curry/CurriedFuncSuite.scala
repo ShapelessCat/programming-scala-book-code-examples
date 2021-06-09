@@ -29,10 +29,11 @@ class CurriedFuncSuite extends FunSuite:
   //   assert(cat1Uncurried("hello", "world") == "helloworld")
   // }
 
-  val f1: String =>  String => String
-    = (s1: String) => (s2: String) => s1 + s2
-  val f2: String => (String => String)
-    = (s1: String) => (s2: String) => s1 + s2
+  val f1: String => String => String =
+    (s1: String) => (s2: String) => s1 + s2
+
+  val f2: String => (String => String) =
+    (s1: String) => (s2: String) => s1 + s2
 
   test("Curried function arguments bind right to left") {
     assert(f1("hello")("world") == "helloworld")

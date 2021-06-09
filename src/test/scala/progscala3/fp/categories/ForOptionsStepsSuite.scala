@@ -33,7 +33,7 @@ class ForOptionsStepsSuite extends FunSuite:
   // +None+ is returned.
   def sumCounts1(countSteps: Seq[Step]): Option[Int] =
     countSteps.foldLeft(Option(0)) {
-      (sumOpt, step) => sumOpt flatMap (i => step(i))
+      (sumOpt, step) => sumOpt.flatMap(step)
     }
 
   test("Folding over a sequence of Somes processes all values") {
@@ -42,9 +42,8 @@ class ForOptionsStepsSuite extends FunSuite:
 
   test("Folding over a sequence of Somes and Nones returns None") {
     sumCounts1(partiallySuccessfulSteps) match
-      case None => // correct
-      case Some(i) =>
-        assert(false, s"Should have failed, but returned Some($i)")
+      case None    => // correct
+      case Some(i) => assert(false, s"Should have failed, but returned Some($i)")
   }
 
   // More verbose, but it stops the "counts" iteration at the first None

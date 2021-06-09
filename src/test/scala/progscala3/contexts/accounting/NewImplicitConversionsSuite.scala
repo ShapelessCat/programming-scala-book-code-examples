@@ -1,5 +1,6 @@
 // src/test/scala/progscala3/contexts/accounting/NewImplicitConversionsSuite.scala
 package progscala3.contexts.accounting
+
 import scala.language.implicitConversions
 import munit.*
 

@@ -6,7 +6,7 @@ import scala.util.{Either, Left, Right}
 
 class ForEithersSeqSuite extends FunSuite:
   test("For loops skip Lefts") {
-    val seq: Seq[Either[RuntimeException,Int]] =
+    val seq: Seq[Either[RuntimeException, Int]] =
       Vector(Right(10), Left(RuntimeException("boo!")), Right(20))
 
     val results2 = for

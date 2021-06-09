@@ -25,6 +25,6 @@ class FoldMapSuite extends FunSuite:
     val vector2 = vector.foldRight(Vector.empty[Seq[Int]]) {
       (x, vector) =>  (1 to x) +: vector
     }.flatten
-    assert(vector2 ==
-      Vector(1, 1, 2, 1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6))
+
+    assert(vector2 == Vector(1, 1, 2, 1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6))
   }

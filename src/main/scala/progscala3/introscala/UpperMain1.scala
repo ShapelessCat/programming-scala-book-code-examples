@@ -12,5 +12,5 @@ def main(params: Array[String]): Unit =                         // <3>
 
 private def output(header: String)(data: Array[String]): Unit =
   print(header)
-  data.map(s => s.toUpperCase).foreach(s => printf("%s ", s))
+  data.map(_.toUpperCase).foreach(s => printf("%s ", s))
   println("")

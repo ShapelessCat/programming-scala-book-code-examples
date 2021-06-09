@@ -9,11 +9,11 @@ class ComplexPropertiesSuite extends ScalaCheckSuite:
 
   def additionTest(a: Complex, b: Complex) =
     (a + b).real == (a.real + b.real) &&
-    (a + b).imaginary == (a.imaginary + b.imaginary)
+      (a + b).imaginary == (a.imaginary + b.imaginary)
 
   def subtractionTest(a: Complex, b: Complex) =
     (a - b).real == (a.real - b.real) &&
-    (a - b).imaginary == (a.imaginary - b.imaginary)
+      (a - b).imaginary == (a.imaginary - b.imaginary)
 
   val zero = Complex(0.0, 0.0)
 
@@ -21,7 +21,7 @@ class ComplexPropertiesSuite extends ScalaCheckSuite:
     forAll { (real: Double, imag: Double) =>
       val c = Complex(real, imag)
       additionTest(zero, c) &&
-      additionTest(c, zero)
+        additionTest(c, zero)
     }
   }
 
@@ -29,7 +29,7 @@ class ComplexPropertiesSuite extends ScalaCheckSuite:
     forAll { (real: Double, imag: Double) =>
       val c = Complex(real, imag)
       subtractionTest(zero, c) &&
-      subtractionTest(c, zero)
+        subtractionTest(c, zero)
     }
   }
 

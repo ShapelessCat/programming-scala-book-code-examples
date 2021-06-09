@@ -10,10 +10,12 @@ class FoldLeftRightSuite extends FunSuite:
   val seq = Seq(1,2,3,4,5,6)
 
   test("foldLeft goes left to right") {
-    assert(foldLeft(seq)("()")((accum, i) => s"($accum $i)") ==
-      "((((((() 1) 2) 3) 4) 5) 6)")
+    assert(
+      foldLeft(seq)("()")((accum, i) => s"($accum $i)") ==
+        "((((((() 1) 2) 3) 4) 5) 6)")
   }
   test("foldRight goes right to left") {
-    assert(foldRight(seq)("()")((i, accum) => s"($i $accum)") ==
-      "(1 (2 (3 (4 (5 (6 ()))))))")
+    assert(
+      foldRight(seq)("()")((i, accum) => s"($i $accum)") ==
+        "(1 (2 (3 (4 (5 (6 ()))))))")
   }

@@ -30,5 +30,4 @@ class ForeachSuite extends FunSuite:
     }
     assert(str ==
       "(0) Alabama: Montgomery, (1) Alaska: Juneau, (2) Wyoming: Cheyenne, ")
-
   }

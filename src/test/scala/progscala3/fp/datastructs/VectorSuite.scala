@@ -13,14 +13,12 @@ class VectorSuite extends FunSuite:
 
   test("Construct a vector with the x +: y +: vect concatenation") {
     val vect1 = "People" +: "should" +: "read" +: vect
-    assert(vect1 ==
-      Vector("People", "should", "read", "Programming", "Scala"))
+    assert(vect1 == Vector("People", "should", "read", "Programming", "Scala"))
   }
 
   test("Construct a vector with the vect :+ x :+ y concatenation") {
     val vect1 = vect :+ "People" :+ "should" :+ "read"
-    assert(vect1 ==
-      Vector("Programming", "Scala", "People", "should", "read"))
+    assert(vect1 == Vector("Programming", "Scala", "People", "should", "read"))
   }
 
   test("Construct a vector with the x +: y +: Nil construction") {
@@ -31,6 +29,5 @@ class VectorSuite extends FunSuite:
   test("Join vectors with ++") {
     val vect1 = "People" +: "should" +: "read" +: Nil
     val vect2 = vect1 ++ vect
-    assert(vect2 ==
-      Vector("People", "should", "read", "Programming", "Scala"))
+    assert(vect2 == Vector("People", "should", "read", "Programming", "Scala"))
   }

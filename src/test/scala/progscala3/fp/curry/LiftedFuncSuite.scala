@@ -5,7 +5,7 @@ import munit.*
 
 class LiftedFuncSuite extends FunSuite:
 
-  val finicky: PartialFunction[String,String] =
+  val finicky: PartialFunction[String, String] =
     case "finicky" => "FINICKY"
 
   val finickyOption = finicky.lift

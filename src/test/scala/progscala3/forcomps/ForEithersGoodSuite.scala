@@ -4,7 +4,7 @@ package progscala3.forcomps
 import munit.*
 
 class ForEithersGoodSuite extends FunSuite:
-  def positive(i: Int): Either[String,Int] =
+  def positive(i: Int): Either[String, Int] =
     if i > 0 then Right(i) else Left(s"nonpositive number $i")
 
   test("If each step returns Right, the result is a Right") {

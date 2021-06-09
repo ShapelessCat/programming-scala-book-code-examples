@@ -8,12 +8,12 @@ class SetSuite extends FunSuite:
   val states = Set("Alabama", "Alaska", "Wyoming")
 
   test("Sets have unique elements") {
-    val lengths = states map (st => st.length)
+    val lengths = states map (_.length)
     assert(lengths == Set(6, 7))  // two names are 7 characters long
   }
 
   test("Sets can be mapped") {
-    val lengths = states map (st => st.length)
+    val lengths = states map (_.length)
     assert(lengths == Set(6, 7))
   }
 
@@ -24,6 +24,5 @@ class SetSuite extends FunSuite:
 
   test("Join two sets with ++") {
     val states2 = states ++ Seq("New York", "Illinois", "Alaska")  // <1>
-    assert(states2 ==
-      Set("Alabama", "Alaska", "Wyoming", "New York", "Illinois"))
+    assert(states2 == Set("Alabama", "Alaska", "Wyoming", "New York", "Illinois"))
   }

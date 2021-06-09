@@ -1,11 +1,12 @@
 // src/test/scala/progscala3/forcomps/ForTriesGoodSuite.scala
 package progscala3.forcomps
+
 import scala.util.{Try, Success, Failure}
 import munit.*
 
 class ForTriesGoodSuite extends FunSuite:
   def positive(i: Int): Try[Int] = Try {
-    assert (i > 0, s"nonpositive number $i")
+    assert(i > 0, s"nonpositive number $i")
     i
   }
 
@@ -28,9 +29,7 @@ class ForTriesGoodSuite extends FunSuite:
     yield (i1 + i2 + i3 + i4)
 
     result match {
-      case Failure(ex) =>
-        assert(ex.getMessage.contains("nonpositive number -5"))
-      case Success(_) =>
-        assert(false, "succeeded when it should have failed!")
+      case Failure(ex) => assert(ex.getMessage.contains("nonpositive number -5"))
+      case Success(_)  => assert(false, "succeeded when it should have failed!")
     }
   }

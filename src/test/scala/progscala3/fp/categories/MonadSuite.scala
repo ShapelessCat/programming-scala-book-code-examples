@@ -6,11 +6,11 @@ import scala.language.higherKinds                         // <1>
 
 class MonadExampleSuite extends FunSuite:
 
-  val seqf: Int => Seq[Int] = i => 1 to i
+  val seqf: Int => Seq[Int] = 1 to _
   val optf: Int => Option[Int] = i => Option(i + 1)
 
   test("SeqM.flatMap behaves like the collection's flatMap") {
-    assert(SeqM.flatMap(Seq(1,2,3))(seqf) == Seq(1, 1, 2, 1, 2, 3))
+    assert(SeqM.flatMap(Seq(1, 2, 3))(seqf) == Seq(1, 1, 2, 1, 2, 3))
     assert(SeqM.flatMap(Seq.empty[Int])(seqf) == Nil)
   }
 

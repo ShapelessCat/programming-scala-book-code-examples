@@ -11,7 +11,7 @@ class CustomStringInterpolatorSuite extends FunSuite:
         val keyRE = """^[\s{,]*(\S+):\s*""".r                   // <3>
         val keys = sc.parts map {                               // <4>
           case keyRE(key) => key
-          case str => str
+          case str        => str
         }
         val kvs = keys zip values                               // <5>
         kvs.toMap                                               // <6>

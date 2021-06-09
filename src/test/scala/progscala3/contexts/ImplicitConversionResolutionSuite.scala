@@ -13,14 +13,14 @@ class ImplicitConversionResolutionSuite extends FunSuite:
 
   object scope1:
     import Foo.*
-    def apply(foo: Foo): String  = foo.s
+    def apply(foo: Foo): String = foo.s
 
   object scope2:
     object implicits:
       implicit def overridingConversion(s: String): Foo =
         Foo(s"scope2's implicit conversion: $s")
 
-    def apply(foo: Foo): String  = foo.s
+    def apply(foo: Foo): String = foo.s
 
   test("Implicit conversion method in scope is invoked to convert a type"){
     assert(scope1(Foo("no use of conversion")) == "no use of conversion")

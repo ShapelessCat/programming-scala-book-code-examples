@@ -13,8 +13,7 @@ class ListSuite extends FunSuite:
 
   test("Construct a list with the x :: y :: list concatenation") {
     val list1 = "People" :: "should" :: "read" :: list
-    assert(list1 ==
-      List("People", "should", "read", "Programming", "Scala"))
+    assert(list1 == List("People", "should", "read", "Programming", "Scala"))
   }
 
   test("Construct a list with the x :: y :: Nil construction") {
@@ -24,6 +23,5 @@ class ListSuite extends FunSuite:
   test("Join lists with ++") {
     val list1 = "People" :: "should" :: "read" :: Nil
     val list2 = list1 ++ list
-    assert(list2 ==
-      List("People", "should", "read", "Programming", "Scala"))
+    assert(list2 == List("People", "should", "read", "Programming", "Scala"))
   }

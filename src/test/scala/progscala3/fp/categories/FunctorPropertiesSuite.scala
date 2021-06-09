@@ -8,8 +8,8 @@ class FunctorPropertiesSuite extends ScalaCheckSuite:
   import Prop.forAll
 
   def id[A] = identity[A]    // Lift identity method to a function
-  val f: Double => BigDecimal = d => BigDecimal(d)
-  val fa: Int => Double = i => 1.5 * i
+  val f: Double => BigDecimal = BigDecimal(_)
+  val fa: Int => Double = 1.5 * _
   val fb: BigDecimal => String = _.toString
 
   def testSeqMorphism(f2: Int => Int) =

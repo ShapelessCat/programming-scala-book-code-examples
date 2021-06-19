@@ -61,7 +61,7 @@ try {        // Can omit {} if nothing else is done with source...
   case NonFatal(ex) => println(ex)
 } finally {  // Can omit {} for both finally and if here.
   if (source != None) {
-    source.get.close
+    source.get.close()
   }
 }
 

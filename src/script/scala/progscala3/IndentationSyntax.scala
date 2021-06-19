@@ -72,7 +72,7 @@ catch
   case NonFatal(ex) => println(ex)
 finally
   if source != None then
-    source.get.close
+    source.get.close()
   end if
 end try
 

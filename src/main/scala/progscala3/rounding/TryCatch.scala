@@ -9,12 +9,12 @@ import scala.util.control.NonFatal
     var source: Option[Source] = None                           // <3>
     try                                                         // <4>
       source = Some(Source.fromFile(fileName))                  // <5>
-      val size = source.get.getLines.size
+      val size = source.get.getLines().size
       println(s"file $fileName has $size lines")
     catch
       case NonFatal(ex) => println(s"Non fatal exception! $ex") // <6>
     finally
       for s <- source do                                        // <7>
         println(s"Closing $fileName...")
-        s.close
+        s.close()
   }

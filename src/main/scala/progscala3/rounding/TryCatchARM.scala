@@ -6,7 +6,7 @@ import scala.util.control.NonFatal
 import scala.io.Source
 
 object manage:
-  def apply[R <: { def close():Unit }, T](resource: => R)(f: R => T): T =
+  def apply[R <: { def close(): Unit }, T](resource: => R)(f: R => T): T =
     var res: Option[R] = None
     try
       res = Some(resource)         // Only reference "resource" once!!
@@ -27,7 +27,7 @@ object manage:
   val sizes = fileNames.map { fileName =>
     try
       val size = manage(Source.fromFile(fileName)) { source =>
-        source.getLines.size
+        source.getLines().size
       }
       println(s"file $fileName has $size lines")
       size
